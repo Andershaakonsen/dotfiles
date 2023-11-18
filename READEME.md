@@ -6,5 +6,4 @@
 * ln -s ~/dotfiles/.tmux.conf ~/.tmux.conf
 * ln -s ~/dotfiles/yabai ~/.config
 * ln -s ~/dotfiles/skhdrc ~/.config/skhd/
-
-
+* ln -s ~/dotfiles/nvim ~/.config
