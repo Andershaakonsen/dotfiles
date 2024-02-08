@@ -26,12 +26,16 @@ nnoremap("<leader>fh", "<cmd>Telescope help_tags<cr>") -- list available help ta
 nnoremap("<leader>td", "<cmd>TodoQuickFix<cr>")
 
 -- Save with leader key
-nnoremap("<leader>w", "<cmd>w<cr>", { silent = false })
+nnoremap("<leader>w", "<cmd>wa<cr>", { silent = false })
 nnoremap("<leader>f", ":Format<cr>")
 -- Quit with leader key
 nnoremap("<leader>q", "<cmd>q<cr>", { silent = false })
 -- Save and Quit with leader key
 nnoremap("<leader>z", "<cmd>wq<cr>", { silent = false })
+
+--Exit with jk,kj
+inoremap("jk", "<cmd>q<cr>")
+inoremap("kj", "<cmd>q<cr>")
 
 -- Harpoon keybinds --
 -- Open harpoon ui
