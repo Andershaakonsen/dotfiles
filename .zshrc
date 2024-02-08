@@ -97,3 +97,8 @@ export EDITOR="nvim"
 # alias python=/usr/bin/python3
 PATH=/bin:/usr/bin:/usr/local/bin:/sbin:${PATH}
 export PATH
+
+# Change cursor shape for different vi modes.
+# Set cursor to block style using a zsh hook
+precmd() { echo -ne "\e[2 q" }
+
