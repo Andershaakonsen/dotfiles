@@ -6,7 +6,7 @@ local tnoremap = require("user.keymap_utils").tnoremap
 local xnoremap = require("user.keymap_utils").xnoremap
 local harpoon_ui = require("harpoon.ui")
 local harpoon_mark = require("harpoon.mark")
-local illuminate = require("illuminate")
+-- local illuminate = require("illuminate")
 local utils = require("user.utils")
 
 local M = {}
@@ -33,9 +33,9 @@ nnoremap("<leader>q", "<cmd>q<cr>", { silent = false })
 -- Save and Quit with leader key
 nnoremap("<leader>z", "<cmd>wq<cr>", { silent = false })
 
---Exit with jk,kj
-inoremap("jk", "<cmd>q<cr>")
-inoremap("kj", "<cmd>q<cr>")
+--Exit insert mode with jk,kj
+inoremap("jk", "<esc>")
+inoremap("kj", "<esc>")
 
 -- Harpoon keybinds --
 -- Open harpoon ui
@@ -52,6 +52,10 @@ end)
 nnoremap("<leader>hr", function()
 	harpoon_mark.rm_file()
 end)
+
+-- Move selected lines with shift+j or shift+k
+vim.keymap.set("v", "J", ":m '>+1<CR>gv=gv")
+vim.keymap.set("v", "K", ":m '<-2<CR>gv=gv")
 
 -- Remove all files from harpoon
 nnoremap("<leader>hc", function()
@@ -258,8 +262,8 @@ vim.keymap.set("i", "<C-j>", "<Down>")
 vim.keymap.set("i", "<C-h>", "<Left>")
 vim.keymap.set("i", "<C-l>", "<Right>")
 
-vim.api.nvim_set_keymap("n", "<tab>", 'copilot#Accept("<C-n>")', { silent = true, expr = true })
-vim.api.nvim_set_keymap("i", "<tab>", 'copilot#Accept("<C-n>")', { silent = true, expr = true })
+-- vim.api.nvim_set_keymap("n", "<tab>", 'copilot#Accept("<C-n>")', { silent = true, expr = true })
+-- vim.api.nvim_set_keymap("i", "<tab>", 'copilot#Accept("<C-n>")', { silent = true, expr = true })
 
 nnoremap("<leader>xx", "<cmd>TroubleToggle<cr>")
 -- keymap.set("n", "<leader>xw", "<cmd>TroubleToggle workspace_diagnostics<cr>")

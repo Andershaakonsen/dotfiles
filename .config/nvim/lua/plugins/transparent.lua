@@ -2,6 +2,7 @@ return {
 	"xiyaowong/transparent.nvim",
 	config = function()
 		local transparent = require("transparent")
+
 		transparent.setup({
 			groups = { -- table: default groups
 				"Normal",

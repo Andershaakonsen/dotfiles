@@ -73,6 +73,7 @@ return {
 					{ name = "copilot" }, -- Copilot suggestions
 					{ name = "path", max_item_count = 3 }, -- file system paths
 					{ name = "luasnip", max_item_count = 3 }, -- snippets
+					{ name = "codeium" },
 				}),
 				-- Enable pictogram icons for lsp/autocompletion
 				formatting = {
@@ -83,6 +84,7 @@ return {
 						ellipsis_char = "...",
 						symbol_map = {
 							Copilot = "",
+							Codeium = "",
 						},
 					}),
 				},

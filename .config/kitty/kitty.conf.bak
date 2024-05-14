@@ -1,21 +1,13 @@
 # Fonts
-font_family JetBrainsMono Nerd Font Mono
+font_family      JetBrains Mono
+bold_font        Maple Mono Bold
+italic_font      Maple Mono Italic
+bold_italic_font Maple Mono BoldItalic
 
 font_size 22.0
 
-background_opacity         0.6
-# dynamic_background_opacity yes
-hide_window_decorations yes
-
-# 0166
-# map cmd+f, send_text all \x02,
-# map ctrl+f send_text all \x1b[1;5F
-
-
-
 enable_audio_bell no
 window_padding_width 10
-window_padding_height 0
 confirm_os_window_close 0
 
 # The basic colors
@@ -92,6 +84,6 @@ color14 #94E2D5
 color7  #BAC2DE
 color15 #A6ADC8
 
-# linux_display_server x11
+linux_display_server x11
 
 map super+shift+enter       new_os_window_with_cwd
