@@ -18,4 +18,5 @@ local lazy = require("lazy")
 
 lazy.setup({
 	{ import = "plugins" },
+	{ import = "plugins.lsp" },
 })

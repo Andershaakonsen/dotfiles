@@ -1,11 +1,37 @@
 return {
 	"folke/trouble.nvim",
-	cmd = { "TroubleToggle", "Trouble" },
-	event = "VeryLazy",
-	opts = { use_diagnostic_signs = true },
+	-- branch = "main", -- IMPORTANT!
 	keys = {
-		{ "<leader>xx", "<cmd>TroubleToggle document_diagnostics<cr>", desc = "Document Diagnostics" },
-		{ "<leader>xw", "<cmd>TroubleToggle workspace_diagnostics<cr>", desc = "Workspace Diagnostics" },
-		{ "n", "n", desc = "Next highlight search" },
+		-- {
+		-- 	"<leader>xx",
+		-- 	"<cmd>Trouble diagnostics toggle<cr>",
+		-- 	desc = "Diagnostics (Trouble)",
+		-- },
+		-- {
+		-- 	"<leader>xX",
+		-- 	"<cmd>Trouble diagnostics toggle filter.buf=0<cr>",
+		-- 	desc = "Buffer Diagnostics (Trouble)",
+		-- },
+		-- {
+		-- 	"<leader>cs",
+		-- 	"<cmd>Trouble symbols toggle focus=false<cr>",
+		-- 	desc = "Symbols (Trouble)",
+		-- },
+		-- {
+		-- 	"<leader>cl",
+		-- 	"<cmd>Trouble lsp toggle focus=false win.position=right<cr>",
+		-- 	desc = "LSP Definitions / references / ... (Trouble)",
+		-- },
+		-- {
+		-- 	"<leader>xL",
+		-- 	"<cmd>Trouble loclist toggle<CR>",
+		-- 	desc = "Location List (Trouble)",
+		-- },
+		-- {
+		-- 	"<leader>xQ",
+		-- 	"<cmd>Trouble qflist toggle<CR>",
+		-- 	desc = "Quickfix List (Trouble)",
+		-- },
 	},
+	opts = {}, -- for default options, refer to the configuration section for custom setup.
 }

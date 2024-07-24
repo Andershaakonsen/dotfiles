@@ -43,7 +43,7 @@ return {
 					["<C-k>"] = cmp.mapping.select_prev_item(), -- previous suggestion
 					["<C-j>"] = cmp.mapping.select_next_item(), -- next suggestion
 					-- ["<Tab>"] = cmp.mapping(function(fallback)
-					-- 	if cmp.visible() then
+					-- 	if require("copilot.suggestion").is_visible() then
 					-- 		cmp.select_next_item()
 					-- 	elseif luasnip.expand_or_jumpable() then
 					-- 		luasnip.expand_or_jump()
@@ -68,19 +68,19 @@ return {
 				}),
 				-- sources for autocompletion
 				sources = cmp.config.sources({
+					-- { name = "copilot" }, -- Copilot suggestions
 					{ name = "nvim_lsp" }, -- lsp
-					{ name = "buffer", max_item_count = 5 }, -- text within current buffer
-					{ name = "copilot" }, -- Copilot suggestions
-					{ name = "path", max_item_count = 3 }, -- file system paths
+					{ name = "path", max_item_count = 2 }, -- file system paths
 					{ name = "luasnip", max_item_count = 3 }, -- snippets
-					{ name = "codeium" },
+					{ name = "buffer", max_item_count = 2 }, -- text within current buffer
+					-- { name = "codeium" },
 				}),
 				-- Enable pictogram icons for lsp/autocompletion
 				formatting = {
 					expandable_indicator = true,
 					format = lspkind.cmp_format({
 						mode = "symbol_text",
-						maxwidth = 50,
+						maxwidth = 80,
 						ellipsis_char = "...",
 						symbol_map = {
 							Copilot = "",

@@ -27,7 +27,7 @@ nnoremap("<leader>td", "<cmd>TodoQuickFix<cr>")
 
 -- Save with leader key
 nnoremap("<leader>w", "<cmd>wa<cr>", { silent = false })
-nnoremap("<leader>f", ":Format<cr>")
+-- nnoremap("<leader>f", ":Format<cr>")
 -- Quit with leader key
 nnoremap("<leader>q", "<cmd>q<cr>", { silent = false })
 -- Save and Quit with leader key
@@ -90,9 +90,9 @@ nnoremap("<leader>se", "<C-w>=") -- make split windows equal width & height
 nnoremap("<leader>sx", ":close<CR>") -- close current split window
 nnoremap("<leader>sm", ":MaximizerToggle<CR>") -- toggle split window maximization
 
-nnoremap("<leader>e", function()
-	require("oil").toggle_float()
-end)
+-- nnoremap("<leader>e", function()
+--     require("oil").toggle_float()
+-- end)
 
 -- Open Spectre for global find/replace
 nnoremap("<leader>S", function()
@@ -173,19 +173,19 @@ nnoremap("<leader>ld", vim.diagnostic.setqflist, { desc = "Quickfix [L]ist [D]ia
 nnoremap("<leader>cn", ":cnext<cr>zz")
 
 -- Navigate to previos qflist item
-nnoremap("<leader>cp", ":cprevious<cr>zz")
+-- nnoremap("<leader>cp", ":cprevious<cr>zz")
 
 -- Open the qflist
-nnoremap("<leader>co", ":copen<cr>zz")
+-- nnoremap("<leader>co", ":copen<cr>zz")
 
 -- Close the qflist
-nnoremap("<leader>cc", ":cclose<cr>zz")
+-- nnoremap("<leader>cc", ":cclose<cr>zz")
 
 M.map_lsp_keybinds = function(buffer_number)
 	nnoremap("<leader>rn", vim.lsp.buf.rename, { desc = "LSP: [R]e[n]ame", buffer = buffer_number })
 	nnoremap("<leader>ca", vim.lsp.buf.code_action, { desc = "LSP: [C]ode [A]ction", buffer = buffer_number })
 
-	nnoremap("gd", vim.lsp.buf.definition, { desc = "LSP: [G]oto [D]efinition", buffer = buffer_number })
+	-- nnoremap("gd", vim.lsp.buf.definition, { desc = "LSP: [G]oto [D]efinition", buffer = buffer_number })
 
 	-- Telescope LSP keybinds --
 	nnoremap(
@@ -251,8 +251,8 @@ nnoremap("<c-j>", ":TmuxNavigateDown<cr>", { silent = true, noremap = true })
 nnoremap("<c-k>", ":TmuxNavigateUp<cr>", { silent = true, noremap = true })
 
 -- save on ctrl s
-vim.keymap.set("i", "<C-s>", "<C-c>:update<cr>")
-vim.keymap.set("n", "<C-s>", ":update<cr>")
+vim.keymap.set("i", "<C-s>", "<C-c>:update<CR>")
+vim.keymap.set("n", "<C-s>", ":update<CR>")
 
 vim.keymap.set("n", "x", '"_x')
 
@@ -265,10 +265,24 @@ vim.keymap.set("i", "<C-l>", "<Right>")
 -- vim.api.nvim_set_keymap("n", "<tab>", 'copilot#Accept("<C-n>")', { silent = true, expr = true })
 -- vim.api.nvim_set_keymap("i", "<tab>", 'copilot#Accept("<C-n>")', { silent = true, expr = true })
 
-nnoremap("<leader>xx", "<cmd>TroubleToggle<cr>")
+-- local suggestion = require("copilot.suggestion")
+--
+-- function AcceptCopilotSuggestion()
+-- 	if suggestion.is_visible() then
+-- 		suggestion.accept()
+-- 	else
+-- 		vim.cmd("normal! <Tab>")
+-- 	end
+-- end
+-- vim.keymap.set("i", "<C-CR>", "<cmd>lua AcceptCopilotSuggestion()<cr>")
+
+-- nnoremap("<leader>xx", "<cmd>TroubleToggle<cr>")
 -- keymap.set("n", "<leader>xw", "<cmd>TroubleToggle workspace_diagnostics<cr>")
 
 -- Reenable default <space> functionality to prevent input delay
 tnoremap("<space>", "<space>")
+
+-- Copilot
+-- nnoremap("<leader>cp", copilot.open({ "right", 0.4 })({ desc = "Copilot Panel", buffer = buffer_number }))
 
 return M

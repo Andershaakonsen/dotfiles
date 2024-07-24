@@ -40,15 +40,15 @@ return {
 	keys = {
 		{
 			"<leader>e",
-			function()
-				if vim.bo.filetype == "neo-tree" then
-					vim.cmd("Neotree close")
-				else
-					-- vim.cmd("Neotree float")
-					vim.cmd("Neotree toggle")
-				end
-			end,
-			-- "<cmd>Neotree toggle<cr>",
+			-- function()
+			--     if vim.bo.filetype == "neo-tree" then
+			--         vim.cmd("Neotree close")
+			--     else
+			--         -- vim.cmd("Neotree float")
+			--         vim.cmd("Neotree toggle")
+			--     end
+			-- end,
+			"<cmd>Neotree toggle<cr>",
 			desc = "Explorer",
 		},
 	},

@@ -1,7 +1,7 @@
 return {
 	{
 		"nvim-lualine/lualine.nvim",
-		-- event = "VeryLazy",
+		event = "VeryLazy",
 		config = function()
 			local harpoon = require("harpoon.mark")
 
@@ -40,8 +40,8 @@ return {
 
 			require("lualine").setup({
 				vim.cmd([[
-          set cmdheight=0
-        ]]),
+		set cmdheight=0
+		]]),
 				options = {
 					theme = "auto",
 					globalstatus = true,

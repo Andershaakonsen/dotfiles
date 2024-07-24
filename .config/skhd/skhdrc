@@ -63,4 +63,5 @@ ctrl + cmd - r : brew services restart yabai
 # map applications
 # ctrl - t : open /Applications/iTerm.app;
 ctrl - t : open /Applications/kitty.app;
+# ctrl - c : open /Applications/ChatGPT.app/
 alt - s : open /Applications/Spotify.app/

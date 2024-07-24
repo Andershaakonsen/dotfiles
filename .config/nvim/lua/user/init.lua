@@ -6,4 +6,5 @@ require("user.highlight_yank")
 require("user.toggle_diagnostics")
 
 vim.cmd.colorscheme("tokyonight")
+-- vim.cmd.colorscheme("neofusion")
 -- vim.cmd.colorscheme("cyberdream")
