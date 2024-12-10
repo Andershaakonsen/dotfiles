@@ -1,3 +1,4 @@
+-- Status line at the bottom
 return {
 	{
 		"nvim-lualine/lualine.nvim",

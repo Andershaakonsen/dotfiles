@@ -1,3 +1,4 @@
+-- Enhanced f, F, t, T commands
 return {
 	"ggandor/flit.nvim",
 	enabled = true,

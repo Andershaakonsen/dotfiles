@@ -1,3 +1,4 @@
+-- Configurable tools for working with markdown files in Neovim.
 return {
 	"tadmccorkle/markdown.nvim",
 	ft = "markdown", -- or 'event = "VeryLazy"'

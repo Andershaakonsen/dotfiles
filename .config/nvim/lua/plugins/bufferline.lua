@@ -1,3 +1,5 @@
+-- This plugin provides a customizable buffer line for Neovim,
+-- enhancing the visibility and management of open buffers.
 return {
 	"akinsho/bufferline.nvim",
 	version = "*",

@@ -1,5 +1,7 @@
+-- Try to remove this
 return {
 	"xiyaowong/transparent.nvim",
+	enabled = false,
 	config = function()
 		local transparent = require("transparent")
 

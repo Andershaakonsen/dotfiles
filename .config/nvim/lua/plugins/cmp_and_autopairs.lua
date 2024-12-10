@@ -1,3 +1,6 @@
+-- This file configures the nvim-cmp plugin for autocompletion and integrates it with nvim-autopairs for automatic pairing of brackets and quotes.
+-- It also sets up various completion sources, snippet support, and custom key mappings for a better autocompletion experience.
+
 ---@diagnostic disable: missing-fields
 
 return {

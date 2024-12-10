@@ -1,3 +1,4 @@
+-- Highly extendable fuzzy finder over lists.
 return {
 	{
 		"nvim-telescope/telescope.nvim",
