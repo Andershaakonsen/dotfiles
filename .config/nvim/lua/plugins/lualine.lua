@@ -2,6 +2,9 @@ return {
 	{
 		"nvim-lualine/lualine.nvim",
 		event = "VeryLazy",
+		dependencies = {
+			"AndreM222/copilot-lualine",
+		},
 		config = function()
 			local harpoon = require("harpoon.mark")
 
@@ -57,6 +60,7 @@ return {
 					},
 					lualine_c = {
 						{ "filename", path = 1 },
+						{ "copilot" },
 					},
 					lualine_x = {
 						"filetype",

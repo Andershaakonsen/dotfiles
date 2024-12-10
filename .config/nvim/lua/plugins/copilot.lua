@@ -36,7 +36,7 @@ return {
 				},
 				filetypes = {
 					yaml = false,
-					markdown = false,
+					markdown = true,
 					help = false,
 					gitcommit = false,
 					gitrebase = false,
@@ -51,6 +51,19 @@ return {
 		end,
 	},
 	{
+		-- "CopilotC-Nvim/CopilotChat.nvim",
+		-- branch = "canary",
+		-- dependencies = {
+		-- 	{ "zbirenbaum/copilot.lua" }, -- or github/copilot.vim
+		-- 	{ "nvim-lua/plenary.nvim" }, -- for curl, log wrapper
+		-- },
+		-- opts = {
+		-- 	debug = false, -- Enable debugging
+		-- 	-- See Configuration section for rest
+		-- },
+		-- -- See Commands section for default commands if you want to lazy load on them
+	},
+	{
 		-- "zbirenbaum/copilot-cmp",
 		-- config = function()
 		-- 	require("copilot_cmp").setup()
@@ -59,7 +72,7 @@ return {
 	{
 		"CopilotC-Nvim/CopilotChat.nvim",
 		branch = "canary",
-		event = "InsertEnter",
+		-- event = "InsertEnter",
 
 		keys = {
 			{ "<leader>cp", ":Copilot panel<CR>", desc = "Copilot Panel" },
@@ -72,24 +85,23 @@ return {
 			},
 			{ "<leader>ccb", "<cmd>CopilotChatBetterNamings<cr>", desc = "CopilotChat - Better Name" },
 			{ "<leader>ccr", "<cmd>CopilotChatReview<cr>", desc = "CopilotChat - Review code" },
-			{
-				"<leader>cce",
-				":CopilotChatExplain",
-				mode = "x",
-				desc = "CopilotChat - Explain",
-			},
-			{
-				"<leader>ccx",
-				":CopilotChatInPlace<cr>",
-				mode = "x",
-				desc = "CopilotChat - Run in-place code",
-			},
+			-- {
+			-- 	"<leader>cce",
+			-- 	":CopilotChatExplain<cr>",
+			-- 	mode = "x",
+			-- 	desc = "CopilotChat - Explain",
+			-- },
+			-- {
+			-- 	"<leader>ccx",
+			-- 	":CopilotChatInPlace<cr>",
+			-- 	mode = "x",
+			-- 	desc = "CopilotChat - Run in-place code",
+			-- },
 		},
 
 		config = function()
 			require("CopilotChat").setup({
 				debug = false, -- Enable debugging
-
 				disable_extra_info = "no", -- Disable extra information (e.g.: system prompt, token count) in the response.
 				prompts = {
 					-- Code-related prompts

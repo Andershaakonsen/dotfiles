@@ -48,7 +48,7 @@ return {
 			--         vim.cmd("Neotree toggle")
 			--     end
 			-- end,
-			"<cmd>Neotree toggle<cr>",
+			"<cmd>Neotree toggle reveal_force_cwd<cr>",
 			desc = "Explorer",
 		},
 	},

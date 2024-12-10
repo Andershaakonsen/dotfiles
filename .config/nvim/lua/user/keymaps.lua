@@ -24,6 +24,7 @@ nnoremap("<leader>fc", "<cmd>Telescope grep_string<cr>") -- find string under cu
 nnoremap("<leader>fb", "<cmd>Telescope buffers<cr>") -- list open buffers in current neovim instance
 nnoremap("<leader>fh", "<cmd>Telescope help_tags<cr>") -- list available help tags
 nnoremap("<leader>td", "<cmd>TodoQuickFix<cr>")
+nnoremap("<leader>fg", "<cmd>Telescope git_commits<cr>") -- list git files
 
 -- Save with leader key
 nnoremap("<leader>w", "<cmd>wa<cr>", { silent = false })
@@ -32,6 +33,10 @@ nnoremap("<leader>w", "<cmd>wa<cr>", { silent = false })
 nnoremap("<leader>q", "<cmd>q<cr>", { silent = false })
 -- Save and Quit with leader key
 nnoremap("<leader>z", "<cmd>wq<cr>", { silent = false })
+
+nnoremap("<tab>", "<cmd>tabNext<cr>")
+nnoremap("tn", "<cmd>tabnew<cr>", { desc = "Tab New" })
+nnoremap("tc", "<cmd>tabclose<cr>", { desc = "Tab close" })
 
 --Exit insert mode with jk,kj
 inoremap("jk", "<esc>")
@@ -276,8 +281,8 @@ vim.keymap.set("i", "<C-l>", "<Right>")
 -- end
 -- vim.keymap.set("i", "<C-CR>", "<cmd>lua AcceptCopilotSuggestion()<cr>")
 
--- nnoremap("<leader>xx", "<cmd>TroubleToggle<cr>")
--- keymap.set("n", "<leader>xw", "<cmd>TroubleToggle workspace_diagnostics<cr>")
+nnoremap("<leader>xx", "<cmd>Trouble diagnostics toggle<cr>")
+-- nnoremap("n", "<leader>xw", "<cmd>TroubleToggle workspace_diagnostics<cr>")
 
 -- Reenable default <space> functionality to prevent input delay
 tnoremap("<space>", "<space>")
