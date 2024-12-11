@@ -28,6 +28,11 @@ return {
 				name = "Obsidian",
 				path = "/Users/andershakonsen/Obsidian",
 			},
+			{
+				name = "Second Brain",
+				path = "/Users/andershakonsen/second-brain",
+			},
+
 			-- {
 			-- 	name = "work",
 			-- 	path = "~/vaults/work",

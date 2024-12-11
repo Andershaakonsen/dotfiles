@@ -3,8 +3,10 @@
 return {
 	"folke/noice.nvim",
 	event = "VeryLazy",
+	enabled = true,
 	opts = {
 		-- add any options here
+		timeout = 10000,
 	},
 	dependencies = {
 		-- if you lazy-load any plugin below, make sure to add proper `module="..."` entries

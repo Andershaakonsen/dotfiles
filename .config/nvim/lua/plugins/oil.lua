@@ -1,31 +1,39 @@
 -- A vim-vinegar like file explorer that lets you edit your filesystem like a normal Neovim buffer.
 return {
-	{
-		"stevearc/oil.nvim",
-		opts = {},
-		-- Optional dependencies
-		dependencies = { "nvim-tree/nvim-web-devicons" },
-		config = function()
-			require("oil").setup({
-				keymaps = {
-					["g?"] = "actions.show_help",
-					["<CR>"] = "actions.select",
-					["<C-\\>"] = "actions.select_vsplit",
-					["<C-enter>"] = "actions.select_split", -- this is used to navigate left
-					["<C-t>"] = "actions.select_tab",
-					["<C-p>"] = "actions.preview",
-					["<C-c>"] = "actions.close",
-					["<C-r>"] = "actions.refresh",
-					["-"] = "actions.parent",
-					["_"] = "actions.open_cwd",
-					["`"] = "actions.cd",
-					["~"] = "actions.tcd",
-					["gs"] = "actions.change_sort",
-					["gx"] = "actions.open_external",
-					["g."] = "actions.toggle_hidden",
-				},
-				use_default_keymaps = false,
-			})
-		end,
-	},
+	"stevearc/oil.nvim",
+	dependencies = { "nvim-tree/nvim-web-devicons" },
+	config = function()
+		CustomOilBar = function()
+			local path = vim.fn.expand("%")
+			path = path:gsub("oil://", "")
+
+			return "  " .. vim.fn.fnamemodify(path, ":.")
+		end
+		require("oil").setup({
+			columns = { "icon" },
+			keymaps = {
+				["<C-h>"] = false,
+				["<C-l>"] = false,
+				["<C-k>"] = false,
+				["<C-j>"] = false,
+				["<M-h>"] = "actions.select_split",
+			},
+			win_options = {
+				winbar = "%{v:lua.CustomOilBar()}",
+			},
+			view_options = {
+				show_hidden = true,
+				is_always_hidden = function(name, _)
+					local folder_skip = { "dev-tools.locks", "dune.lock", "_build" }
+					return vim.tbl_contains(folder_skip, name)
+				end,
+			},
+		})
+
+		-- Open parent directory in current window
+		vim.keymap.set("n", "-", "<CMD>Oil<CR>", { desc = "Open parent directory" })
+
+		-- Open parent directory in floating window
+		vim.keymap.set("n", "<space>-", require("oil").toggle_float)
+	end,
 }
