@@ -1,0 +1,64 @@
+# Neovim
+.config/nvim/lazy-lock.json
+.config/nvim/.netrwhist
+.config/nvim/undodir/
+.config/nvim/plugin/packer_compiled.lua
+.config/nvim/autoload/
+
+# Vim/Neovim general
+*.swp
+*.swo
+*~
+*.bak
+
+# macOS
+.DS_Store
+.AppleDouble
+.LSOverride
+Icon
+._*
+
+# Terminal
+.zcompdump*
+.zsh_history
+.bash_history
+
+# Logs
+logs
+*.log
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+
+# Local config overrides
+*.local
+**/local.*
+**/*.local.lua
+.config/*/local/
+
+# Backup files
+*.bak
+*.backup
+
+# Sensitive information
+.env
+.config/**/auth*
+.config/**/token*
+.config/**/secret*
+
+# Node.js
+node_modules/
+package-lock.json
+yarn.lock
+
+# Python
+__pycache__/
+*.py[cod]
+*.so
+.Python
+env/
+venv/
+ENV/
+
+# Cache
+.cache/
