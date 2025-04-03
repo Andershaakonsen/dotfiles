@@ -35,7 +35,6 @@ map("n", "<leader>2", ":lua require('harpoon.ui').nav_file(2)<cr>", { desc = "Ha
 map("n", "<leader>3", ":lua require('harpoon.ui').nav_file(3)<cr>", { desc = "Harpoon: Jump to file 3" })
 map("n", "<leader>4", ":lua require('harpoon.ui').nav_file(4)<cr>", { desc = "Harpoon: Jump to file 4" })
 map("n", "<leader>5", ":lua require('harpoon.ui').nav_file(5)<cr>", { desc = "Harpoon: Jump to file 5" })
-
 map("n", "<C-e>", "<cmd>lua require('harpoon.ui').toggle_quick_menu()<cr>", { desc = "Harpoon: Toggle quick menu" })
 map(
   "n",
@@ -43,3 +42,7 @@ map(
   "<cmd>lua require('harpoon.mark').add_file()<cr>",
   { desc = "Harpoon: Add current file to harpoon" }
 )
+
+-- Telescope
+map("n", "<leader>ff", ":Telescope find_files<cr>", { desc = "Find File" })
+map("n", "<leader>fs", ":Telescope live_grep<cr>", { desc = "Find String" })
