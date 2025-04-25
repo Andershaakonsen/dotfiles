@@ -175,3 +175,7 @@ shift-down = ['volume set 0', 'mode main']
 # Not working somehow
 # ctrl-t = 'exec-and-forget open -a /Applications/kitty.app'
 # ctrl-s = 'exec-and-forget open -a /Applications/System Settings.app'
+
+[[on-window-detected]]
+if.app-id = 'net.ankiweb.dtop' # Replace with Anki's bundle ID
+run = 'layout floating'
