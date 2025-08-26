@@ -46,3 +46,7 @@ map(
 -- Telescope
 map("n", "<leader>ff", ":Telescope find_files<cr>", { desc = "Find File" })
 map("n", "<leader>fs", ":Telescope live_grep<cr>", { desc = "Find String" })
+
+-- Search
+map("n", "<esc>", ":nohlsearch<CR>", { desc = "Clear search highlights" })
+map("n", "<C-c>", ":nohlsearch<CR>", { desc = "Clear search highlights" })
