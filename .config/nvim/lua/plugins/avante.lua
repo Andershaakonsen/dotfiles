@@ -8,15 +8,26 @@ return {
     -- for example
     provider = "copilot",
     -- set to claude s
-    copilot = {
-      model = "gpt-4o", -- Or another model you know works with the Copilot integration
-      -- model = "gpt-4.1", -- Or another model you know works with the Copilot integration
+    providers = {
 
-      -- Not working:
-      -- model = "claude-3-7-sonnet-20250219", -- Latest Claude 3.7 Sonnet model
-      -- model = "gpt-4-1",
-      -- model = "claude-3-7-sonnet", -- Without date suffix
-      -- model = "gemini-2-5-pro", -- Try this format for Gemini 2.5 Pro
+      copilot = {
+        -- model gpt
+        --Working:
+        model = "gpt-4.1",
+        -- model = "gpt-4",
+        -- Not working:
+        -- model = "claude-3-7",
+        --       model = "claude-3-7-sonnet-20240229", -- Claude 3.7 Sonnet model
+        -- model = "claude-3-7-sonnet",
+        -- model = "claude/claude-3-7-sonnet-20250219",
+        -- model = "claude-3-7-sonnet-20250219",
+        -- model = "claude-3-7-sonnet-20250219", -- Latest Claude 3.7 Sonnet model
+        -- model = "claude-3-7-sonnet-20240229", -- Correct format for Claude 3.7 Sonnet
+        -- model = "anthropic/claude-3-7-sonnet", -- Try this format
+        -- model = "gpt-4-1",
+        -- model = "claude-3-7-sonnet", -- Without date suffix
+        -- model = "gemini-2-5-pro", -- Try this format for Gemini 2.5 Pro
+      },
     },
     -- openai = {
     --   endpoint = "https://api.openai.com/v1",

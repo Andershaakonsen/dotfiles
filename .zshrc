@@ -15,7 +15,14 @@ export PATH="$HOME/Library/pnpm:$PATH" # Add pnpm to PATH
 export PATH="$HOME/.bun/bin:$PATH" # Add bun to PATH
 
 # Aliases
-alias dw='dotnet watch'
+alias dw='dotnet watch --launch-profile https'
+alias dcd='docker compose down'
+alias dcup='docker compose up -d --build'
+export ASPNETCORE_LAUNCH_PROFILE=https
+
+# For zsh (legg i ~/.zshrc)
+set -o vi
+
 # alias lg='lazygit'
 # alias lazygit='echo "Use `lg` instead of `lazygit`"'
 # alias nvim = 'echo "Use `v` instead of `nvim`"'
