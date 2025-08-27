@@ -7,6 +7,7 @@ Personal macOS development environment configuration.
 - **Neovim**: LazyVim-based setup with AI assistance (Supermaven, Avante)
 - **Shell**: Zsh with Oh My Zsh, Powerlevel10k theme, and productivity aliases
 - **Terminal**: Kitty and Alacritty configurations
+- **Window Manager**: AeroSpace tiling window manager with vim-style navigation
 - **Tools**: Custom tmux scripts, window management configs
 
 ## Key Aliases
@@ -48,6 +49,7 @@ TypeScript, JSON, Markdown, Tailwind CSS, TOML
 ## Structure
 
 - `.config/nvim/` - Neovim configuration
-- `.config/yabai/` - Window manager (disabled)
+- `.config/aerospace.toml` - AeroSpace window manager configuration
+- `.config/yabai/` - Yabai window manager (disabled, replaced by AeroSpace)
 - `.config/kitty/` - Terminal emulator
 - `scripts/` - Custom tmux utilities
