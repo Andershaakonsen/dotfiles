@@ -13,7 +13,8 @@ return {
       copilot = {
         -- model gpt
         --Working:
-        model = "gpt-4.1",
+        model = "claude-3.5-sonnet",
+        -- model = "Calude Sonnet 4",
         -- model = "gpt-4",
         -- Not working:
         -- model = "claude-3-7",

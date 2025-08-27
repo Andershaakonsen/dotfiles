@@ -63,5 +63,8 @@ ENV/
 # Cache
 .cache/
 
+# Neovim test environment
+.config/nvim.test/
+
 # Claude
 CLAUDE.md

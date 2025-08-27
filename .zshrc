@@ -4,9 +4,7 @@ if [[ -r "${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-${(%):-%n}.zsh" ]]
 fi
 
 # Set PATH environment variable
-# export PATH="/opt/homebrew/bin:$PATH" # Prioritize Homebrew binaries
-# export PATH=/bin:/usr/bin:/usr/local/bin:${PATH}
-# Combining the above two lines, hopefully to get code . working
+# Prioritize Homebrew binaries and system paths for development
 export PATH="/opt/homebrew/bin:/bin:/usr/bin:/usr/local/bin:$PATH"
 
 export PATH=$PATH:/usr/local/pgsql/bin
@@ -23,11 +21,6 @@ export ASPNETCORE_LAUNCH_PROFILE=https
 # For zsh (legg i ~/.zshrc)
 set -o vi
 
-# alias lg='lazygit'
-# alias lazygit='echo "Use `lg` instead of `lazygit`"'
-# alias nvim = 'echo "Use `v` instead of `nvim`"'
-# alias lazygit='echo "Use `lg` instead of `lazygit`"'
-# alias nvim='echo "Use `v` instead of `nvim`"; command nvim'
 
 # Alias for lazygit and nvim
 alias lg='/opt/homebrew/bin/lazygit'
@@ -80,7 +73,7 @@ export JAVA_HOME=/Library/Java/JavaVirtualMachines/zulu-17.jdk/Contents/Home
 # Lazy load nvm (Node Version Manager)
 autoload -U add-zsh-hook
 load-nvm() {
-  unset -f nvm node npm npx # Remove the stubs
+  unset -f nvm node npm npx claude # Remove the stubs
   export NVM_DIR="$HOME/.nvm"
   [ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh" # Load nvm
   [ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion" # Load nvm bash_completion
@@ -90,6 +83,7 @@ nvm() { load-nvm; }
 node() { load-nvm; node "$@"; }
 npm() { load-nvm; npm "$@"; }
 npx() { load-nvm; npx "$@"; }
+claude() { load-nvm; claude "$@"; }  # Claude CLI lazy loading
 
 # Lazy load fzf bindings and completion
 load-fzf() {
