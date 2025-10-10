@@ -11,11 +11,13 @@ export PATH=$PATH:/usr/local/pgsql/bin
 
 export PATH="$HOME/Library/pnpm:$PATH" # Add pnpm to PATH
 export PATH="$HOME/.bun/bin:$PATH" # Add bun to PATH
+export PATH="$HOME/.local/bin:$PATH" # Add local bin for tools like netcoredbg
 
 # Aliases
 alias dw='dotnet watch --launch-profile https'
 alias dcd='docker compose down'
 alias dcup='docker compose up -d --build'
+alias pm='python3 main.py'
 export ASPNETCORE_LAUNCH_PROFILE=https
 
 # For zsh (legg i ~/.zshrc)

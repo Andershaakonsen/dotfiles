@@ -14,11 +14,27 @@ return {
     indent = { enabled = true },
     input = { enabled = true },
     picker = { enabled = true },
-    notifier = { enabled = true },
+    notifier = {
+      enabled = true,
+      timeout = 5000, -- Show notifications longer (5 seconds)
+      keep = function(notif)
+        return notif.level == "error" -- Keep error messages longer
+      end,
+    },
     quickfile = { enabled = true },
     scope = { enabled = true },
     scroll = { enabled = false },
     statuscolumn = { enabled = true },
     words = { enabled = true },
   },
+  config = function(_, opts)
+    require("snacks").setup(opts)
+
+    -- Configure diagnostics virtual text to filter out unwanted diagnostics
+    vim.diagnostic.config({
+      virtual_text = {
+        severity = { min = vim.diagnostic.severity.WARN },
+      },
+    })
+  end,
 }
