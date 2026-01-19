@@ -4,8 +4,8 @@ if [[ -r "${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-${(%):-%n}.zsh" ]]
 fi
 
 # Set PATH environment variable
-# Prioritize Homebrew binaries and system paths for development
-export PATH="/opt/homebrew/bin:/bin:/usr/bin:/usr/local/bin:$PATH"
+# Prioritize /usr/local/share/dotnet for .NET 10 SDK
+export PATH="/usr/local/share/dotnet:/opt/homebrew/bin:/bin:/usr/bin:/usr/local/bin:$PATH"
 
 export PATH=$PATH:/usr/local/pgsql/bin
 

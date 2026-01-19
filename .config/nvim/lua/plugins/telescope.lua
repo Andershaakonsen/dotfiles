@@ -1,57 +1,67 @@
 return {
   "nvim-telescope/telescope.nvim",
-  keys = { -- Add any custom keymaps here
-    { "<leader>tx", "<cmd>Telescope<cr>", desc = "Telescope + Trouble" }, -- Example entry
-  },
-  config = function()
-    local actions = require("telescope.actions")
-    local open_with_trouble = require("trouble.sources.telescope").open
+  tag = "v0.1.9",
 
-    require("telescope").setup({
+  lazy = false, -- Force load immediately to prevent crash on lazy load
+  priority = 1000, -- Load early
+  dependencies = {
+    "nvim-lua/plenary.nvim",
+  },
+  keys = {
+    -- Override LazyVim's <leader>ff keymap with NO preview
+    {
+      "<leader>ff",
+      function()
+        require("telescope.builtin").find_files({
+          previewer = false,
+          file_ignore_patterns = { "%.spl$", "%.bin$", "%.exe$", "node_modules/", ".git/" },
+        })
+      end,
+      desc = "Find Files (no preview)",
+    },
+    -- Add live_grep keymap (no preview to prevent TUI crashes)
+    {
+      "<leader>fs",
+      function()
+        require("telescope.builtin").live_grep({
+          previewer = false,
+        })
+      end,
+      desc = "Find String (no preview)",
+    },
+  },
+  opts = function()
+    local actions = require("telescope.actions")
+
+    return {
       defaults = {
+        -- Exclude binary and problematic files
+        file_ignore_patterns = {
+          "%.spl$", -- Vim spell files (binary)
+          "%.bin$",
+          "%.exe$",
+          "%.dll$",
+          "%.so$",
+          "%.dylib$",
+          "%.class$",
+          "%.pyc$",
+          "node_modules/",
+          ".git/",
+        },
         mappings = {
           i = {
-            ["<C-k>"] = actions.move_selection_previous,
-            ["<C-j>"] = actions.move_selection_next,
-            ["<C-q>"] = actions.send_selected_to_qflist + actions.open_qflist,
-            ["<C-x>"] = actions.delete_buffer,
-            ["<leader>tx"] = open_with_trouble,
+            ["<esc>"] = actions.close,
           },
-          n = {
-            ["<leader>tx"] = open_with_trouble,
-          },
-        },
-        file_ignore_patterns = {
-          "node_modules",
-          "yarn.lock",
-          ".git",
-          ".sl",
-          "_build",
-          ".next",
         },
       },
       pickers = {
-        find_files = { results_title = true },
-        git_files = { results_title = false },
-        git_status = { expand_dir = false },
-        git_commits = {
-          mappings = {
-            i = {
-              ["<C-M-d>"] = function()
-                local action_state = require("telescope.actions.state")
-                local selected_entry = action_state.get_selected_entry()
-                vim.api.nvim_win_close(0, true)
-                vim.cmd("stopinsert")
-                vim.schedule(function()
-                  vim.cmd(("DiffviewOpen %s^!"):format(selected_entry.value))
-                end)
-              end,
-            },
-          },
+        find_files = {
+          previewer = false, -- Disable preview for find_files
+        },
+        live_grep = {
+          previewer = false, -- Disable preview for live_grep (prevents TUI crashes)
         },
       },
-    })
-
-    pcall(require("telescope").load_extension, "fzf")
+    }
   end,
 }

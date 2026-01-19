@@ -7,6 +7,11 @@
 --   virtual_text = false, -- eller true for å aktivere
 -- })
 
+-- Line numbers (using native Neovim, not Snacks statuscolumn)
+vim.opt.number = true
+vim.opt.relativenumber = true
+vim.opt.signcolumn = "yes" -- Always show signcolumn to prevent text shifting
+
 -- Vis markdown kommentarer alltid (ikke skjul dem)
 vim.opt.conceallevel = 0
 

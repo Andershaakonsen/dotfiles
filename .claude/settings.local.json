@@ -1,0 +1,14 @@
+{
+  "permissions": {
+    "allow": [
+      "WebFetch(domain:github.com)",
+      "WebSearch",
+      "WebFetch(domain:vi.stackexchange.com)",
+      "Read(/Users/andershakonsen/.local/share/nvim/lazy/obsidian.nvim/**)",
+      "Read(/Users/andershakonsen/.local/share/nvim/lazy/obsidian.nvim/lua/obsidian/footer/**)",
+      "Read(/Users/andershakonsen/.local/share/nvim/lazy/obsidian.nvim/lua/obsidian/lsp/handlers/**)"
+    ],
+    "deny": [],
+    "ask": []
+  }
+}
