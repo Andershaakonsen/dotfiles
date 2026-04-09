@@ -79,9 +79,8 @@ load-nvm() {
   export NVM_DIR="$HOME/.nvm"
   [ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh" # Load nvm
   [ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion" # Load nvm bash_completion
-  nvm "$@" # Call nvm after loading
 }
-nvm() { load-nvm; }
+nvm() { load-nvm; nvm "$@"; }
 node() { load-nvm; node "$@"; }
 npm() { load-nvm; npm "$@"; }
 npx() { load-nvm; npx "$@"; }

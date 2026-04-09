@@ -1,7 +1,7 @@
 -- Temporarily disable UI plugins that may cause TUI race conditions
 return {
   -- Disable UI-heavy plugins
-  { "folke/noice.nvim", enabled = false },
+  -- { "folke/noice.nvim", enabled = false },
   { "rcarriga/nvim-notify", enabled = false },
   { "stevearc/dressing.nvim", enabled = false },
 
@@ -9,8 +9,8 @@ return {
   {
     "nvim-treesitter/nvim-treesitter",
     opts = {
-      highlight = { enable = false }, -- Disable highlights to test
-      indent = { enable = false },
+      -- highlight = { enable = false }, -- Disable highlights to test
+      -- indent = { enable = false },
     },
   },
 }
