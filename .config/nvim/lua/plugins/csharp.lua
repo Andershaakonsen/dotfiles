@@ -1,5 +1,9 @@
+-- C# tooling, Roslyn-based (omnisharp fully removed).
+-- The LazyVim `lang.dotnet` extra (omnisharp + omnisharp-extended) has been
+-- dropped from lazyvim.json, so everything C# lives here. Debugging is set up
+-- separately in dap.lua (coreclr/netcoredbg).
 return {
-  -- C# support
+  -- C# treesitter
   {
     "nvim-treesitter/nvim-treesitter",
     opts = {
@@ -11,38 +15,29 @@ return {
       },
     },
   },
-  -- Enhanced LSP for C#
+  -- Roslyn LSP (same engine as VS Code C# Dev Kit, supports .slnx)
   {
-    "neovim/nvim-lspconfig",
+    "seblj/roslyn.nvim",
+    ft = "cs",
+    opts = {},
+  },
+  -- Format C# with csharpier
+  {
+    "stevearc/conform.nvim",
+    optional = true,
     opts = {
-      servers = {
-        -- Disable csharp_ls to avoid conflicts
-        csharp_ls = false,
-        omnisharp = {
-          cmd = { "omnisharp" },
-          settings = {
-            FormattingOptions = {
-              OrganizeImports = true,
-            },
-            MsBuild = {
-              LoadProjectsOnDemand = false,
-            },
-            RoslynExtensionsOptions = {
-              EnableAnalyzersSupport = true,
-              EnableImportCompletion = true,
-            },
-          },
-        },
+      formatters_by_ft = {
+        cs = { "csharpier" },
       },
     },
   },
-  -- Ensure Mason installs OmniSharp
+  -- Mason: C# formatter + debugger
   {
     "mason-org/mason.nvim",
     opts = {
       ensure_installed = {
-        "omnisharp",
-        "netcoredbg", -- C# debugger
+        "csharpier",
+        "netcoredbg",
       },
     },
   },
