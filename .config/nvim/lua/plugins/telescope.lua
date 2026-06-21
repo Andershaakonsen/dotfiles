@@ -12,9 +12,16 @@ return {
     {
       "<leader>ff",
       function()
+        -- Match the explorer: in the dotfiles repo show dotfiles + gitignored
+        -- files; everywhere else keep telescope's normal hidden defaults.
+        -- .git/ and .DS_Store are always filtered out.
+        local dotfiles = vim.fn.expand("~/dotfiles")
+        local in_dotfiles = vim.fn.getcwd():sub(1, #dotfiles) == dotfiles
         require("telescope.builtin").find_files({
           previewer = false,
-          file_ignore_patterns = { "%.spl$", "%.bin$", "%.exe$", "node_modules/", ".git/" },
+          hidden = in_dotfiles, -- show dotfiles (.config, .gitignore, ...)
+          no_ignore = in_dotfiles, -- show gitignored files (CLAUDE.md, ...)
+          file_ignore_patterns = { "%.spl$", "%.bin$", "%.exe$", "node_modules/", "%.git/", "%.DS_Store$" },
         })
       end,
       desc = "Find Files (no preview)",
