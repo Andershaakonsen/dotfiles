@@ -50,6 +50,7 @@ TypeScript, JSON, Markdown, Tailwind CSS, TOML
 
 - `.config/nvim/` - Neovim configuration
 - `.config/aerospace.toml` - AeroSpace window manager configuration
-- `.config/yabai/` - Yabai window manager (disabled, replaced by AeroSpace)
+- `.config/tmux/` - tmux configuration (prefix `C-Space`; `prefix+m` squeeze, `prefix+M` zoom)
 - `.config/kitty/` - Terminal emulator
+- `.config/archived/` - Retired configs kept for reference (yabai, skhd, sketchybar, alacritty)
 - `scripts/` - Custom tmux utilities
