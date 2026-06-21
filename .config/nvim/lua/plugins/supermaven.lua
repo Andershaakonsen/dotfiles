@@ -1,6 +1,6 @@
 return {
   "supermaven-inc/supermaven-nvim",
-  enabled = true, -- Re-enabled for AI completion
+  enabled = false, -- Disabled: using blink.cmp completion instead
   config = function()
     require("supermaven-nvim").setup({
       keymaps = {

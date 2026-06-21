@@ -68,3 +68,7 @@ ENV/
 
 # Claude
 CLAUDE.md
+
+# Personal working notes / scratch (not part of the config)
+.config/nvim/Intent.md
+.config/nvim/assets/

@@ -15,6 +15,16 @@ vim.opt.signcolumn = "yes" -- Always show signcolumn to prevent text shifting
 -- Vis markdown kommentarer alltid (ikke skjul dem)
 vim.opt.conceallevel = 0
 
+-- Neovim detects *.bicepparam as filetype `bicep`, which makes the bicep
+-- language server compile param files in regular bicep mode (BCP007 on `using`,
+-- BCP279 on `param x = ...`). Map them to `bicep-params` so the server gets the
+-- correct languageId, matching what the VSCode Bicep extension sends.
+vim.filetype.add({
+  extension = {
+    bicepparam = "bicep-params",
+  },
+})
+
 -- Sørg for at markdown filer aldri skjuler innhold
 vim.api.nvim_create_autocmd("FileType", {
   pattern = "markdown",
