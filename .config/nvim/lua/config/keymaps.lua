@@ -3,6 +3,11 @@
 -- Add any additional keymaps here
 local map = LazyVim.safe_keymap_set
 
+-- Free up <leader>q for "open note in Quartz" (buffer-local in the vault, see
+-- lua/config/quartz.lua). Removing LazyVim's default <leader>qq quit mapping also
+-- makes <leader>q fire instantly instead of waiting on the timeout for a second q.
+pcall(vim.keymap.del, "n", "<leader>qq")
+
 -- Tmux navigator
 map({ "n", "" }, "<C-h>", ":TmuxNavigateLeft<cr>", { silent = true, noremap = true })
 map({ "n", "" }, "<C-l>", ":TmuxNavigateRight<cr>", { silent = true, noremap = true })

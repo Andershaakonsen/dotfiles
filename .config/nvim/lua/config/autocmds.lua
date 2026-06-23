@@ -40,3 +40,6 @@ vim.api.nvim_create_autocmd("BufLeave", {
     end
   end,
 })
+
+-- <leader>q in vault notes → open the note in the local Quartz site
+require("config.quartz")
