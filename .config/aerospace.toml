@@ -129,6 +129,9 @@ ctrl-7 = 'workspace 7'
 ctrl-8 = 'workspace 8'
 ctrl-9 = 'workspace 9'
 
+# Fokuser Quartz-fanen i Chrome (åpne den hvis den ikke er oppe). Se scripts/quartz-focus.sh
+ctrl-q = 'exec-and-forget /Users/andershakonsen/dotfiles/scripts/quartz-focus.sh'
+
 # See: https://nikitabobko.github.io/AeroSpace/commands#move-node-to-workspace
 shift-cmd-1 = 'move-node-to-workspace 1'
 shift-cmd-2 = 'move-node-to-workspace 2'
