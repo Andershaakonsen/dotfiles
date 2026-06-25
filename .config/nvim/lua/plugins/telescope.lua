@@ -7,41 +7,20 @@ return {
   dependencies = {
     "nvim-lua/plenary.nvim",
   },
-  keys = {
-    -- Override LazyVim's <leader>ff keymap with NO preview
-    {
-      "<leader>ff",
-      function()
-        -- Match the explorer: in the dotfiles repo show dotfiles + gitignored
-        -- files; everywhere else keep telescope's normal hidden defaults.
-        -- .git/ and .DS_Store are always filtered out.
-        local dotfiles = vim.fn.expand("~/dotfiles")
-        local in_dotfiles = vim.fn.getcwd():sub(1, #dotfiles) == dotfiles
-        require("telescope.builtin").find_files({
-          previewer = false,
-          hidden = in_dotfiles, -- show dotfiles (.config, .gitignore, ...)
-          no_ignore = in_dotfiles, -- show gitignored files (CLAUDE.md, ...)
-          file_ignore_patterns = { "%.spl$", "%.bin$", "%.exe$", "node_modules/", "%.git/", "%.DS_Store$" },
-        })
-      end,
-      desc = "Find Files (no preview)",
-    },
-    -- Add live_grep keymap (no preview to prevent TUI crashes)
-    {
-      "<leader>fs",
-      function()
-        require("telescope.builtin").live_grep({
-          previewer = false,
-        })
-      end,
-      desc = "Find String (no preview)",
-    },
-  },
+  -- NOTE: <leader>ff and <leader>fs are defined in lua/config/keymaps.lua, not
+  -- here. LazyVim's own picker spec also binds <leader>ff and wins over a plugin
+  -- spec's `keys`, so the overrides must live in config.keymaps (loaded later).
   opts = function()
     local actions = require("telescope.actions")
 
     return {
       defaults = {
+        -- Put the prompt at the top; ascending so the best match sits right
+        -- under it (otherwise results fill from the bottom up).
+        sorting_strategy = "ascending",
+        layout_config = {
+          prompt_position = "top",
+        },
         -- Exclude binary and problematic files
         file_ignore_patterns = {
           "%.spl$", -- Vim spell files (binary)

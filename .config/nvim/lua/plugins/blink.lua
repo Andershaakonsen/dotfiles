@@ -2,6 +2,11 @@ return {
   "saghen/blink.cmp",
   enabled = true, -- Re-enabled with minimal safe config
   opts = {
+    -- Don't run blink inside the Telescope prompt; otherwise its completion
+    -- menu hijacks <C-j>/<C-k> from Telescope's own selection movement.
+    enabled = function()
+      return vim.bo.filetype ~= "TelescopePrompt"
+    end,
     keymap = {
       preset = "default",
       -- Use Ctrl+j/k for navigation (Tab is for Supermaven)

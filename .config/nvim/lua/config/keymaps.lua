@@ -102,7 +102,8 @@ map(
 )
 
 -- Telescope
--- Keymaps for Telescope are defined in lua/plugins/telescope.lua
+-- <leader>ff / <leader>fs are owned by snacks.nvim (LazyVim's default picker
+-- registers them), so the overrides live in lua/plugins/snacks.lua's `keys`.
 
 -- Search
 map("n", "<esc>", ":nohlsearch<CR>", { desc = "Clear search highlights" })
