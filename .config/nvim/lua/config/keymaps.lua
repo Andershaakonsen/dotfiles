@@ -8,11 +8,15 @@ local map = LazyVim.safe_keymap_set
 -- makes <leader>q fire instantly instead of waiting on the timeout for a second q.
 pcall(vim.keymap.del, "n", "<leader>qq")
 
--- Tmux navigator
-map({ "n", "" }, "<C-h>", ":TmuxNavigateLeft<cr>", { silent = true, noremap = true })
-map({ "n", "" }, "<C-l>", ":TmuxNavigateRight<cr>", { silent = true, noremap = true })
-map({ "n", "" }, "<C-j>", ":TmuxNavigateDown<cr>", { silent = true, noremap = true })
-map({ "n", "" }, "<C-k>", ":TmuxNavigateUp<cr>", { silent = true, noremap = true })
+-- Tmux navigator — only outside herdr. Inside herdr (HERDR_ENV=1) the
+-- vim-tmux-navigator plugin isn't loaded (see plugins/tmux-navigator.lua), so
+-- :TmuxNavigate* commands don't exist; herdr-splits.lua owns <C-h/j/k/l> there.
+if vim.env.HERDR_ENV ~= "1" then
+  map({ "n", "" }, "<C-h>", ":TmuxNavigateLeft<cr>", { silent = true, noremap = true })
+  map({ "n", "" }, "<C-l>", ":TmuxNavigateRight<cr>", { silent = true, noremap = true })
+  map({ "n", "" }, "<C-j>", ":TmuxNavigateDown<cr>", { silent = true, noremap = true })
+  map({ "n", "" }, "<C-k>", ":TmuxNavigateUp<cr>", { silent = true, noremap = true })
+end
 
 vim.keymap.set("n", "<leader>as", function()
   vim.fn.system("open -a Obsidian")
