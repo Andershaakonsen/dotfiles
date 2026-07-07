@@ -22,7 +22,7 @@ vim.api.nvim_create_autocmd("BufEnter", {
   pattern = "/Users/andershakonsen/satoru/Anki/*",
   callback = function(ev)
     vim.b.autoformat = false
-    vim.diagnostic.disable(ev.buf)
+    vim.diagnostic.enable(false, { bufnr = ev.buf })
     local ok, rm = pcall(require, "render-markdown")
     if ok then rm.disable() end
     for _, group in ipairs(anki_hl_groups) do
@@ -34,7 +34,8 @@ vim.api.nvim_create_autocmd("BufEnter", {
 
 vim.api.nvim_create_autocmd("BufLeave", {
   pattern = "/Users/andershakonsen/satoru/Anki/*",
-  callback = function()
+  callback = function(ev)
+    vim.diagnostic.enable(true, { bufnr = ev.buf })
     for group, hl in pairs(anki_hl_saved) do
       vim.api.nvim_set_hl(0, group, hl)
     end
