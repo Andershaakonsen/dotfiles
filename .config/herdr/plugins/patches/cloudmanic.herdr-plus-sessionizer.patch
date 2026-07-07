@@ -1,0 +1,66 @@
+diff --git a/herdr.go b/herdr.go
+index 88f4f0f..2fcb712 100644
+--- a/herdr.go
++++ b/herdr.go
+@@ -359,6 +359,27 @@ func (c *herdrClient) workspaceGet(workspaceID string) (workspaceInfo, error) {
+ 	return out.Workspace, err
+ }
+ 
++// workspaceList returns every currently-open workspace with its id and label.
++// openProject uses it to find a workspace a project already opened (matched by
++// label) so it can switch to it instead of creating a duplicate — the
++// tmux-sessionizer behavior.
++func (c *herdrClient) workspaceList() ([]workspaceInfo, error) {
++	var out struct {
++		Workspaces []workspaceInfo `json:"workspaces"`
++	}
++	if err := c.call("workspace.list", map[string]any{}, &out); err != nil {
++		return nil, err
++	}
++	return out.Workspaces, nil
++}
++
++// workspaceFocus switches the user to an existing workspace, making it the
++// active one. It is the "go to the workspace that is already open" half of the
++// sessionizer behavior — the counterpart to workspaceCreate.
++func (c *herdrClient) workspaceFocus(workspaceID string) error {
++	return c.call("workspace.focus", map[string]any{"workspace_id": workspaceID}, nil)
++}
++
+ // workspaceCreate makes a brand-new workspace rooted at cwd with the given
+ // label, and returns the ids of the new workspace, its single root tab, and
+ // that tab's root pane. When focus is true the workspace becomes the active one
+diff --git a/projects.go b/projects.go
+index 1891db2..a61db34 100644
+--- a/projects.go
++++ b/projects.go
+@@ -96,12 +96,29 @@ func runProjectsUI() {
+ // panes, running each startup command. Creating the focused workspace switches
+ // the user to it; the picker pane this was launched from is then torn down by
+ // herdr when runProjectsUI exits.
++//
++// Sessionizer behavior: if a workspace this project already opened is still
++// open — matched by its label, which openProject sets to the project name —
++// it switches to that workspace instead of spinning up a duplicate. This
++// mirrors tmux-sessionizer: opening a project you already have open takes you
++// there rather than stacking a second copy.
+ func openProject(client *herdrClient, p Project) error {
+ 	dir := p.expandedWorkingDir()
+ 	if fi, err := os.Stat(dir); err != nil || !fi.IsDir() {
+ 		return fmt.Errorf("working directory does not exist: %s", dir)
+ 	}
+ 
++	// Switch to an already-open workspace for this project if there is one. A
++	// list failure is not fatal — we fall through and create a fresh workspace,
++	// degrading to the old always-create behavior rather than blocking the open.
++	if existing, err := client.workspaceList(); err == nil {
++		for _, ws := range existing {
++			if ws.Label == p.Name {
++				return client.workspaceFocus(ws.WorkspaceID)
++			}
++		}
++	}
++
+ 	ws, rootTab, rootPane, err := client.workspaceCreate(dir, p.Name, true)
+ 	if err != nil {
+ 		return fmt.Errorf("create workspace: %w", err)

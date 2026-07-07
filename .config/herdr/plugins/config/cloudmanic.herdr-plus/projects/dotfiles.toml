@@ -7,16 +7,18 @@ description = "Personal macOS dotfiles"
 working_dir = "~/dotfiles"
 
 [[tabs]]
+name = "C & E"
+
+[[tabs.panes]]
+name = "editor"
+command = "v"   # v = nvim alias
+
+[[tabs.panes]]
 name = "claude"
 command = "claude"
+split = "right"
+
 
 [[tabs]]
-name = "editor"
-command = "v ."      # v = nvim alias
-
-[[tabs]]
-name = "lazygit"
-command = "lg"       # lg = lazygit alias
-
-[[tabs]]
-name = "terminal"    # no command — just an empty shell
+name = "LG"
+command = "lg" # lg = lazygit alias

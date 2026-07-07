@@ -1,0 +1,26 @@
+# herdr-plus project template: satoru Obsidian vault
+# Opened via the "Herdr Plus: Projects" action — spins up a new herdr
+# workspace rooted at working_dir with one tab per [[tabs]] entry.
+#
+# The workspace/session name "satoru" matches scripts/tmux-kitty-tint.sh,
+# so this vault gets its distinct warm kitty background tint automatically.
+
+name = "satoru"
+description = "Obsidian vault (satoru)"
+working_dir = "~/satoru"
+
+[[tabs]]
+name = "C & E"
+
+[[tabs.panes]]
+label = "Editor"
+command = "v index.md"
+
+[[tabs.panes]]
+label = "Claude"
+command = "claude"
+split = "right"
+
+[[tabs]]
+name = "lazygit"
+command = "lg"   # lg = lazygit alias
