@@ -1,0 +1,22 @@
+# herdr-plus project template: dotfiles workspace
+# Opened via the "Herdr Plus: Projects" action — spins up a new herdr
+# workspace rooted at working_dir with one tab per [[tabs]] entry.
+
+name = "dotfiles"
+description = "Personal macOS dotfiles"
+working_dir = "~/dotfiles"
+
+[[tabs]]
+name = "claude"
+command = "claude"
+
+[[tabs]]
+name = "editor"
+command = "v ."      # v = nvim alias
+
+[[tabs]]
+name = "lazygit"
+command = "lg"       # lg = lazygit alias
+
+[[tabs]]
+name = "terminal"    # no command — just an empty shell
