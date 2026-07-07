@@ -6,7 +6,13 @@
       "WebFetch(domain:vi.stackexchange.com)",
       "Read(/Users/andershakonsen/.local/share/nvim/lazy/obsidian.nvim/**)",
       "Read(/Users/andershakonsen/.local/share/nvim/lazy/obsidian.nvim/lua/obsidian/footer/**)",
-      "Read(/Users/andershakonsen/.local/share/nvim/lazy/obsidian.nvim/lua/obsidian/lsp/handlers/**)"
+      "Read(/Users/andershakonsen/.local/share/nvim/lazy/obsidian.nvim/lua/obsidian/lsp/handlers/**)",
+      "Bash(/opt/homebrew/bin/nvim --headless -c 'lua vim.defer_fn\\(function\\(\\) local m=vim.fn.maparg\\(\"<leader>ff\",\"n\",false,true\\); print\\(vim.inspect\\({lhs=m.lhs, desc=m.desc, rhs=m.rhs}\\)\\) end, 100\\)' -c 'sleep 300m' -c 'qa')",
+      "Bash(command -v yabai skhd)",
+      "Read(//Users/andershakonsen/.config/**)",
+      "Bash(tmux -V)",
+      "Bash(tmux list-sessions *)",
+      "Bash(tmux display-message *)"
     ],
     "deny": [],
     "ask": []

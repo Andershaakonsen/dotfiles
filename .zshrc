@@ -104,3 +104,6 @@ z() {
 
 # Source Powerlevel10k theme customization, if available
 [[ ! -f ~/.p10k.zsh ]] || source ~/.p10k.zsh
+
+# GitHub MCP plugin (Claude Code) — pull token from gh keyring at startup
+export GITHUB_PERSONAL_ACCESS_TOKEN="$(gh auth token 2>/dev/null)"
