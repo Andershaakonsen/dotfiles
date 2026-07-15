@@ -1,8 +1,8 @@
 diff --git a/herdr.go b/herdr.go
-index 88f4f0f..2fcb712 100644
+index 88f4f0f..51ad18f 100644
 --- a/herdr.go
 +++ b/herdr.go
-@@ -359,6 +359,27 @@ func (c *herdrClient) workspaceGet(workspaceID string) (workspaceInfo, error) {
+@@ -359,6 +359,36 @@ func (c *herdrClient) workspaceGet(workspaceID string) (workspaceInfo, error) {
  	return out.Workspace, err
  }
  
@@ -27,98 +27,117 @@ index 88f4f0f..2fcb712 100644
 +	return c.call("workspace.focus", map[string]any{"workspace_id": workspaceID}, nil)
 +}
 +
++// tabFocus makes tabID the active tab of its workspace (and focuses it).
++// runProjectsUI uses it to re-activate the launching tab before this process
++// exits and herdr tears the picker's tab down: herdr's plugin-pane teardown
++// otherwise activates the picker tab's neighbor rather than the tab you
++// launched from, so a switch-and-return (or a stay) lands on the wrong tab.
++func (c *herdrClient) tabFocus(tabID string) error {
++	return c.call("tab.focus", map[string]any{"tab_id": tabID}, nil)
++}
++
  // workspaceCreate makes a brand-new workspace rooted at cwd with the given
  // label, and returns the ids of the new workspace, its single root tab, and
  // that tab's root pane. When focus is true the workspace becomes the active one
-diff --git a/main.go b/main.go
-index 0f2a22b..b1496d6 100644
---- a/main.go
-+++ b/main.go
-@@ -49,6 +49,12 @@ func main() {
- 		case "on-worktree":
- 			runOnWorktreeEvent(os.Args[2:])
- 			return
-+		case "restore-zoom":
-+			// Local patch: detached watcher that re-zooms the launching pane
-+			// after the Projects picker closes (see zoomrestore.go). Spawned by
-+			// launchProjects, not run by users.
-+			runRestoreZoom(os.Args[2:])
-+			return
- 		case "version", "--version", "-v", "-V":
- 			fmt.Println("herdr-plus", version.Version)
- 			return
 diff --git a/projects.go b/projects.go
-index 1891db2..75e3b23 100644
+index 1891db2..59543e2 100644
 --- a/projects.go
 +++ b/projects.go
-@@ -7,8 +7,11 @@
- package main
+@@ -19,9 +19,19 @@ import (
  
- import (
-+	"bytes"
-+	"encoding/json"
- 	"errors"
- 	"fmt"
-+	"io"
- 	"os"
- 	"os/exec"
- 	"path/filepath"
-@@ -30,16 +33,53 @@ func launchProjects() {
+ // launchProjects is the Projects action's entry point. herdr runs it server-side
+ // (from the plugin action / keybinding), so it has no terminal of its own. It
+-// asks herdr to open the projects browser as a zoomed plugin pane (the `picker`
+-// entrypoint in herdr-plugin.toml). herdr creates and tears down that pane for
+-// us, so — unlike the old design — there is no throwaway workspace to manage.
++// asks herdr to open the projects browser as a plugin pane in its own tab (the
++// `picker` entrypoint in herdr-plugin.toml). herdr creates and tears down that
++// pane for us, so — unlike the old design — there is no throwaway workspace to
++// manage.
++//
++// Placement is "tab" (not "zoomed") on purpose. Opening the picker in its own
++// tab leaves the launching tab's layout untouched, so a pane that was zoomed
++// when you pressed the key stays zoomed — both if you switch to another project
++// and if you stay. A "zoomed"/"overlay" picker instead lives in the caller's
++// tab, and tearing it down makes herdr recompute that tab's layout and drop the
++// zoom; papering over that needed a detached re-zoom watcher, and since herdr's
++// `pane zoom` has no --no-focus, the re-zoom stole focus back and produced a
++// visible flicker. A tab-placed picker sidesteps the whole problem.
+ func launchProjects() {
+ 	// HERDR_BIN_PATH points at the running herdr binary; it is the portable way to
+ 	// call back into the CLI from a plugin command.
+@@ -30,11 +40,22 @@ func launchProjects() {
  		herdr = "herdr"
  	}
  
-+	// Record the launching pane and whether it was zoomed before we open the
-+	// picker. Tearing the picker pane down drops the caller tab's zoom (see
-+	// zoomrestore.go), so we restore it afterward. contextFromPluginEnv reads the
-+	// pane herdr had focused when the action fired.
-+	callerPane := contextFromPluginEnv().PaneId
-+	wasZoomed := callerPane != "" && paneZoomed(herdr, callerPane)
-+
-+	// Capture stdout so we can read the picker pane's id from the open response,
-+	// while still emitting it to the plugin log the way the old code did.
- 	cmd := exec.Command(herdr, "plugin", "pane", "open",
+-	cmd := exec.Command(herdr, "plugin", "pane", "open",
++	// The tab the action fired from. We hand it to the picker so it can
++	// re-activate that tab before exiting: herdr's plugin-pane teardown activates
++	// the picker tab's neighbor, not the tab you launched from, which otherwise
++	// lands a switch-and-return (or a stay) on the wrong tab. This is the only
++	// place the launching context is available — runProjectsUI runs in the picker
++	// pane, whose own context is the picker, not the launcher.
++	args := []string{"plugin", "pane", "open",
  		"--plugin", "cloudmanic.herdr-plus",
  		"--entrypoint", "picker",
- 		"--placement", "zoomed",
- 	)
--	cmd.Stdout = os.Stdout
-+	var stdout bytes.Buffer
-+	cmd.Stdout = io.MultiWriter(os.Stdout, &stdout)
+-		"--placement", "zoomed",
+-	)
++		"--placement", "tab",
++	}
++	if launchTab := contextFromPluginEnv().TabId; launchTab != "" {
++		args = append(args, "--env", "HERDR_PLUS_LAUNCH_TAB="+launchTab)
++	}
++
++	cmd := exec.Command(herdr, args...)
+ 	cmd.Stdout = os.Stdout
  	cmd.Stderr = os.Stderr
  	if err := cmd.Run(); err != nil {
- 		errExit("could not open the projects browser:", err)
- 	}
-+
-+	// If the caller was zoomed, hand off to a detached watcher that re-zooms it
-+	// once the picker closes. Best-effort: no picker id or no prior zoom means
-+	// there is nothing to restore.
-+	if wasZoomed {
-+		if pickerPane := parsePluginPaneID(stdout.Bytes()); pickerPane != "" {
-+			spawnRestoreZoom(herdr, pickerPane, callerPane)
-+		}
-+	}
-+}
-+
-+// parsePluginPaneID pulls the opened pane's id out of `herdr plugin pane open`'s
-+// JSON response (result.plugin_pane.pane.pane_id). Returns "" if it can't.
-+func parsePluginPaneID(out []byte) string {
-+	var resp struct {
-+		Result struct {
-+			PluginPane struct {
-+				Pane struct {
-+					PaneID string `json:"pane_id"`
-+				} `json:"pane"`
-+			} `json:"plugin_pane"`
-+		} `json:"result"`
-+	}
-+	if json.Unmarshal(out, &resp) != nil {
-+		return ""
-+	}
-+	return resp.Result.PluginPane.Pane.PaneID
+@@ -43,9 +64,9 @@ func launchProjects() {
  }
  
  // runProjectsUI renders the full-screen projects browser. It runs inside the
-@@ -96,12 +136,29 @@ func runProjectsUI() {
+-// zoomed pane herdr opens for the `picker` entrypoint (which has a real
+-// terminal), loads the projects, and — when one is chosen — spins up its
+-// workspace. On cancel it simply exits and herdr tears the pane down.
++// pane herdr opens for the `picker` entrypoint (which has a real terminal),
++// loads the projects, and — when one is chosen — spins up its workspace. On
++// cancel it simply exits and herdr tears the pane down.
+ func runProjectsUI() {
+ 	projects, err := loadProjects()
+ 	if err != nil {
+@@ -70,16 +91,26 @@ func runProjectsUI() {
+ 	}
+ 
+ 	m, ok := result.(projectsModel)
+-	if !ok || m.chosen == nil {
+-		// Cancelled (or the program never produced a model) — nothing to do; herdr
+-		// closes the pane when this process exits.
+-		return
+-	}
+ 
+ 	client, err := newHerdrClient()
+ 	if err != nil {
+ 		errExit(err)
+ 	}
++
++	// Re-activate the launching tab before this process exits (and herdr tears
++	// the picker tab down, which would otherwise activate the picker's neighbor).
++	// Do it before openProject's workspace switch: on a switch we then leave for
++	// the target and the origin keeps the right active tab for when you return;
++	// on a stay or cancel we simply land back on the launching tab. Best-effort.
++	if launchTab := os.Getenv("HERDR_PLUS_LAUNCH_TAB"); launchTab != "" {
++		_ = client.tabFocus(launchTab)
++	}
++
++	if !ok || m.chosen == nil {
++		// Cancelled (or the program never produced a model) — the launching tab is
++		// re-activated above; herdr closes the pane when this process exits.
++		return
++	}
+ 	if m.worktree {
+ 		if err := openProjectAsWorktree(client, *m.chosen, m.branch); err != nil {
+ 			errExit("could not open project as worktree:", err)
+@@ -96,12 +127,29 @@ func runProjectsUI() {
  // panes, running each startup command. Creating the focused workspace switches
  // the user to it; the picker pane this was launched from is then torn down by
  // herdr when runProjectsUI exits.
@@ -148,120 +167,3 @@ index 1891db2..75e3b23 100644
  	ws, rootTab, rootPane, err := client.workspaceCreate(dir, p.Name, true)
  	if err != nil {
  		return fmt.Errorf("create workspace: %w", err)
-diff --git a/zoomrestore.go b/zoomrestore.go
-new file mode 100644
-index 0000000..db1e7d7
---- /dev/null
-+++ b/zoomrestore.go
-@@ -0,0 +1,111 @@
-+//
-+// Local patch (not upstream): restore a zoomed pane after the Projects picker
-+// closes. Opening the picker as a plugin pane in the caller's tab and then
-+// tearing it down makes herdr recompute the tab layout and drop the tab's
-+// zoom — so a `prefix+f` from a zoomed pane lands you un-zoomed. herdr does
-+// this on the picker's teardown regardless of placement ("zoomed" or
-+// "overlay"), so it can't be fixed from herdr-plugin.toml alone.
-+//
-+// launchProjects records the launching pane and whether it was zoomed, then
-+// (when it was) spawns `herdr-plus restore-zoom <picker> <caller>` detached.
-+// That watcher waits for the picker pane to disappear and re-applies zoom to
-+// the caller pane. It runs detached so it outlives launchProjects and any
-+// timeout herdr might place on an action command. All best-effort: any failure
-+// just leaves the zoom as-is.
-+//
-+
-+package main
-+
-+import (
-+	"encoding/json"
-+	"os"
-+	"os/exec"
-+	"time"
-+)
-+
-+// herdrBin resolves the herdr CLI. herdr injects HERDR_BIN_PATH into plugin
-+// commands; fall back to PATH lookup otherwise.
-+func herdrBin() string {
-+	if b := os.Getenv("HERDR_BIN_PATH"); b != "" {
-+		return b
-+	}
-+	return "herdr"
-+}
-+
-+// paneExists reports whether a pane is still present. `herdr pane get` exits
-+// non-zero with a pane_not_found error once the pane is gone.
-+func paneExists(herdr, paneID string) bool {
-+	return exec.Command(herdr, "pane", "get", paneID).Run() == nil
-+}
-+
-+// paneZoomed reports whether the tab containing paneID is currently zoomed.
-+// `herdr pane layout --pane` returns the pane's tab layout, whose top-level
-+// `zoomed` flag is what we toggle. A missing pane or parse failure reads as
-+// not-zoomed, which is safe: the caller only ever re-applies zoom.
-+func paneZoomed(herdr, paneID string) bool {
-+	out, err := exec.Command(herdr, "pane", "layout", "--pane", paneID).Output()
-+	if err != nil {
-+		return false
-+	}
-+	var resp struct {
-+		Result struct {
-+			Layout struct {
-+				Zoomed bool `json:"zoomed"`
-+			} `json:"layout"`
-+		} `json:"result"`
-+	}
-+	if json.Unmarshal(out, &resp) != nil {
-+		return false
-+	}
-+	return resp.Result.Layout.Zoomed
-+}
-+
-+// spawnRestoreZoom launches the detached watcher that re-zooms callerPane once
-+// pickerPane closes. It returns immediately; the child is not waited on.
-+func spawnRestoreZoom(herdr, pickerPane, callerPane string) {
-+	self, err := os.Executable()
-+	if err != nil {
-+		return
-+	}
-+	cmd := exec.Command(self, "restore-zoom", pickerPane, callerPane)
-+	// Detach: don't tie the child's lifetime or stdio to this process.
-+	cmd.Stdin, cmd.Stdout, cmd.Stderr = nil, nil, nil
-+	_ = cmd.Start()
-+	if cmd.Process != nil {
-+		_ = cmd.Process.Release()
-+	}
-+}
-+
-+// runRestoreZoom is the detached watcher (the `restore-zoom` subcommand). It
-+// waits for pickerPane to close, then re-applies zoom to callerPane, retrying a
-+// few times to win the race with herdr's teardown-driven unzoom.
-+func runRestoreZoom(args []string) {
-+	if len(args) < 2 {
-+		return
-+	}
-+	pickerPane, callerPane := args[0], args[1]
-+	herdr := herdrBin()
-+
-+	// Wait for the picker to close. Bounded so an abandoned picker doesn't poll
-+	// forever; on timeout we just skip the restore.
-+	deadline := time.Now().Add(30 * time.Minute)
-+	for time.Now().Before(deadline) {
-+		if !paneExists(herdr, pickerPane) {
-+			break
-+		}
-+		time.Sleep(250 * time.Millisecond)
-+	}
-+
-+	// herdr's unzoom happens as part of the teardown; give it a beat to settle,
-+	// then re-zoom. Retry a few times in case teardown lands after our first try.
-+	for i := 0; i < 5; i++ {
-+		time.Sleep(200 * time.Millisecond)
-+		if !paneExists(herdr, callerPane) {
-+			return // nothing left to restore
-+		}
-+		if paneZoomed(herdr, callerPane) {
-+			return // already zoomed (restored, or user never lost it)
-+		}
-+		_ = exec.Command(herdr, "pane", "zoom", "--pane", callerPane, "--on").Run()
-+	}
-+}
