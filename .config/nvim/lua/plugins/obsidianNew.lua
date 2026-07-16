@@ -4,36 +4,36 @@ return {
   ft = "markdown",
   keys = {
     -- Workspace & general commands
-    { "<leader>ow", "<cmd>ObsidianWorkspace<cr>", desc = "Switch workspace" },
-    { "<leader>on", "<cmd>ObsidianNew<cr>", desc = "New note" },
-    { "<leader>oo", "<cmd>ObsidianOpen<cr>", desc = "Open in Obsidian app" },
-    { "<leader>os", "<cmd>ObsidianQuickSwitch<cr>", desc = "Quick switch note" },
-    { "<leader>of", "<cmd>ObsidianSearch<cr>", desc = "Search notes" },
-    { "<leader>ot", "<cmd>ObsidianTags<cr>", desc = "Search by tags" },
+    { "<leader>ow", "<cmd>Obsidian workspace<cr>", desc = "Switch workspace" },
+    { "<leader>on", "<cmd>Obsidian new<cr>", desc = "New note" },
+    { "<leader>oo", "<cmd>Obsidian open<cr>", desc = "Open in Obsidian app" },
+    { "<leader>os", "<cmd>Obsidian quick_switch<cr>", desc = "Quick switch note" },
+    { "<leader>of", "<cmd>Obsidian search<cr>", desc = "Search notes" },
+    { "<leader>ot", "<cmd>Obsidian tags<cr>", desc = "Search by tags" },
 
     -- Daily notes
-    { "<leader>od", "<cmd>ObsidianToday<cr>", desc = "Today's note" },
-    { "<leader>oy", "<cmd>ObsidianYesterday<cr>", desc = "Yesterday's note" },
-    { "<leader>om", "<cmd>ObsidianTomorrow<cr>", desc = "Tomorrow's note" },
-    { "<leader>oD", "<cmd>ObsidianDailies<cr>", desc = "List daily notes" },
+    { "<leader>od", "<cmd>Obsidian today<cr>", desc = "Today's note" },
+    { "<leader>oy", "<cmd>Obsidian yesterday<cr>", desc = "Yesterday's note" },
+    { "<leader>om", "<cmd>Obsidian tomorrow<cr>", desc = "Tomorrow's note" },
+    { "<leader>oD", "<cmd>Obsidian dailies<cr>", desc = "List daily notes" },
 
     -- Current note commands
-    { "<leader>ob", "<cmd>ObsidianBacklinks<cr>", desc = "Show backlinks" },
-    { "<leader>ol", "<cmd>ObsidianLinks<cr>", desc = "Show all links" },
-    { "<leader>oT", "<cmd>ObsidianTOC<cr>", desc = "Table of contents" },
-    { "<leader>or", "<cmd>ObsidianRename<cr>", desc = "Rename note" },
-    { "<leader>oc", "<cmd>ObsidianToggleCheckbox<cr>", desc = "Toggle checkbox" },
-    { "<leader>oF", "<cmd>ObsidianFollowLink<cr>", desc = "Follow link under cursor" },
+    { "<leader>ob", "<cmd>Obsidian backlinks<cr>", desc = "Show backlinks" },
+    { "<leader>ol", "<cmd>Obsidian links<cr>", desc = "Show all links" },
+    { "<leader>oT", "<cmd>Obsidian toc<cr>", desc = "Table of contents" },
+    { "<leader>or", "<cmd>Obsidian rename<cr>", desc = "Rename note" },
+    { "<leader>oc", "<cmd>Obsidian toggle_checkbox<cr>", desc = "Toggle checkbox" },
+    { "<leader>oF", "<cmd>Obsidian follow_link<cr>", desc = "Follow link under cursor" },
 
     -- Templates & images
-    { "<leader>oI", "<cmd>ObsidianTemplate<cr>", desc = "Insert template" },
-    { "<leader>oi", "<cmd>ObsidianPasteImg<cr>", desc = "Paste image" },
-    { "<leader>ont", "<cmd>ObsidianNewFromTemplate<cr>", desc = "New note from template" },
+    { "<leader>oI", "<cmd>Obsidian template<cr>", desc = "Insert template" },
+    { "<leader>oi", "<cmd>Obsidian paste_img<cr>", desc = "Paste image" },
+    { "<leader>ont", "<cmd>Obsidian new_from_template<cr>", desc = "New note from template" },
 
     -- Visual mode commands
-    { "<leader>oe", "<cmd>ObsidianExtractNote<cr>", mode = "v", desc = "Extract selection to new note" },
-    { "<leader>oL", "<cmd>ObsidianLink<cr>", mode = "v", desc = "Link selection to note" },
-    { "<leader>oln", "<cmd>ObsidianLinkNew<cr>", mode = "v", desc = "Link selection to new note" },
+    { "<leader>oe", "<cmd>Obsidian extract_note<cr>", mode = "v", desc = "Extract selection to new note" },
+    { "<leader>oL", "<cmd>Obsidian link<cr>", mode = "v", desc = "Link selection to note" },
+    { "<leader>oln", "<cmd>Obsidian link_new<cr>", mode = "v", desc = "Link selection to new note" },
   },
   -- Replace the above line with this if you only want to load obsidian.nvim for markdown files in your vault:
   -- event = {
@@ -46,11 +46,8 @@ return {
   ---@module 'obsidian'
   ---@type obsidian.config
   opts = {
+    legacy_commands = false,
     workspaces = {
-      {
-        name = "personal",
-        path = "~/vaults/personal",
-      },
       {
         name = "Second Brain",
         path = "/Users/andershakonsen/satoru",
