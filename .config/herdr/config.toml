@@ -282,6 +282,17 @@ type = "plugin_action"
 command = "cloudmanic.herdr-plus.projects"
 description = "herdr-plus: projects"
 
+## Plugin herdr-lastws — tmux-style "last workspace" (MRU) toggle
+# prefix+l jumps to the previously-focused workspace; press again to toggle back.
+# herdr's built-in previous_workspace is ordinal (by number), not last-visited;
+# this plugin tracks MRU via a workspace.focused event hook. See
+# plugins/local/herdr-lastws/.
+[[keys.command]]
+key = "prefix+l"
+type = "plugin_action"
+command = "herdr-lastws.last"
+description = "herdr-lastws: last workspace"
+
 ## Plugin herdr-splits — seamless Neovim<->herdr split navigation & resizing
 # ctrl+h/j/k/l: the action checks the focused pane's process; if Neovim is
 # running it forwards the chord (Neovim moves its own split, delegating back to

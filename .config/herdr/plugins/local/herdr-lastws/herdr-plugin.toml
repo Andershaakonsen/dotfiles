@@ -1,0 +1,27 @@
+id = "herdr-lastws"
+name = "Herdr Last Workspace"
+version = "0.1.0"
+min_herdr_version = "0.7.0"
+description = "tmux-style 'last workspace' toggle. Tracks the most-recently-used workspace via workspace.focused events and jumps back and forth with a single key, like tmux's prefix+L (switch-client -l). herdr only has ordinal previous/next; this adds a true last-visited (MRU) jump."
+platforms = ["macos", "linux"]
+
+# Bind in ~/.config/herdr/config.toml:
+#   [[keys.command]]
+#   key = "prefix+l"
+#   type = "plugin_action"
+#   command = "herdr-lastws.last"
+
+# Fires on every workspace focus. The handler maintains a 2-deep MRU stack
+# (current + previous) in a per-session state file, so `last` can jump back.
+[[events]]
+on = "workspace.focused"
+command = ["python3", "scripts/lastws.py", "on-focus"]
+
+# Jump to the previously-focused workspace. Because the jump is itself a focus,
+# it fires workspace.focused again and the handler swaps current/previous — so
+# repeated presses toggle back and forth, exactly like tmux's last-session.
+[[actions]]
+id = "last"
+title = "Jump to last workspace"
+contexts = ["global"]
+command = ["python3", "scripts/lastws.py", "jump"]
