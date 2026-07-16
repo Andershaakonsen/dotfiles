@@ -6,7 +6,6 @@ return {
   -- blink.cmp is enabled in blink.lua with safe config
 
   -- Disable AI completion (can cause TUI issues)
-  -- { "supermaven-inc/supermaven-nvim", enabled = false },
   { "zbirenbaum/copilot.lua", enabled = false },
 
   -- Disable snippets that trigger completion
