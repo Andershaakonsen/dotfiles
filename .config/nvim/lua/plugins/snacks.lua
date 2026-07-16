@@ -2,37 +2,9 @@ return {
   "folke/snacks.nvim",
   priority = 1000,
   lazy = false,
-  -- snacks.nvim owns <leader>ff/<leader>fs (LazyVim's default picker registers
-  -- them via the snacks_picker extra). Overriding them here — on the same plugin
-  -- spec — lets lazy.nvim merge the `keys` and our fragment win. Putting them on
-  -- the telescope spec (a different plugin) does NOT work: both get set and
-  -- whichever plugin loads last wins, which was snacks.
-  keys = {
-    {
-      "<leader>ff",
-      function()
-        -- Match the explorer: in the dotfiles repo show dotfiles + gitignored
-        -- files; everywhere else keep telescope's normal hidden defaults. .git/
-        -- and .DS_Store are always filtered out.
-        local dotfiles = vim.fn.expand("~/dotfiles")
-        local in_dotfiles = vim.fn.getcwd():sub(1, #dotfiles) == dotfiles
-        require("telescope.builtin").find_files({
-          previewer = false,
-          hidden = in_dotfiles, -- show dotfiles (.config, .gitignore, ...)
-          no_ignore = in_dotfiles, -- show gitignored files (CLAUDE.md, ...)
-          file_ignore_patterns = { "%.spl$", "%.bin$", "%.exe$", "node_modules/", "%.git/", "%.DS_Store$" },
-        })
-      end,
-      desc = "Find Files (no preview)",
-    },
-    {
-      "<leader>fs",
-      function()
-        require("telescope.builtin").live_grep({ previewer = false })
-      end,
-      desc = "Find String (no preview)",
-    },
-  },
+  -- <leader>ff and <leader>fs are now owned by fff.nvim (see plugins/fff.lua),
+  -- so nothing is overridden here anymore. LazyVim's snacks_picker binds for
+  -- those keys are superseded by fff's `keys` (loaded after).
   ---@type snacks.Config
   opts = function(_, opts)
     -- Absolute minimal config to avoid TUI crashes
