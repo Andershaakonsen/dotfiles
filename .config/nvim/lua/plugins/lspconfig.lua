@@ -1,6 +1,6 @@
 return {
   "neovim/nvim-lspconfig",
   opts = {
-    inlay_hinus = { enabled = false },
+    inlay_hints = { enabled = false },
   },
 }
