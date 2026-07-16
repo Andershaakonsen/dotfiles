@@ -1,7 +1,8 @@
-# Enable Powerlevel10k instant prompt for fast startup
-if [[ -r "${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-${(%):-%n}.zsh" ]]; then
-  source "${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-${(%):-%n}.zsh"
-fi
+# --- starship trial: p10k instant prompt disabled (competes with starship) ---
+# # Enable Powerlevel10k instant prompt for fast startup
+# if [[ -r "${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-${(%):-%n}.zsh" ]]; then
+#   source "${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-${(%):-%n}.zsh"
+# fi
 
 # Set PATH environment variable
 # Prioritize /usr/local/share/dotnet for .NET 10 SDK
@@ -52,7 +53,9 @@ export PATH=$PATH:$ANDROID_HOME/platform-tools
 export ZSH="$HOME/.oh-my-zsh"
 
 # Set Zsh theme to Powerlevel10k
-ZSH_THEME="powerlevel10k/powerlevel10k"
+# --- starship trial: theme emptied so Oh My Zsh doesn't draw a prompt ---
+# ZSH_THEME="powerlevel10k/powerlevel10k"
+ZSH_THEME=""
 
 # Specify plugins to load (oh-my-zsh plugins and others)
 plugins=(git fast-syntax-highlighting zsh-autosuggestions)
@@ -102,8 +105,37 @@ z() {
 # Source bun shell completions, if available
 [ -s "$HOME/.bun/_bun" ] && source "$HOME/.bun/_bun"
 
-# Source Powerlevel10k theme customization, if available
-[[ ! -f ~/.p10k.zsh ]] || source ~/.p10k.zsh
+# --- starship trial: p10k customization disabled ---
+# # Source Powerlevel10k theme customization, if available
+# [[ ! -f ~/.p10k.zsh ]] || source ~/.p10k.zsh
 
 # GitHub MCP plugin (Claude Code) — pull token from gh keyring at startup
 export GITHUB_PERSONAL_ACCESS_TOKEN="$(gh auth token 2>/dev/null)"
+
+# --- starship trial: use starship as the prompt (must come after oh-my-zsh.sh) ---
+eval "$(starship init zsh)"
+
+# --- starship trial: switch between prompt themes in ~/.config/starship/themes ---
+# Usage:  prompt-theme            (fzf picker with live preview)
+#         prompt-theme <name>     (switch directly, e.g. prompt-theme catppuccin)
+prompt-theme() {
+  local dir="$HOME/.config/starship/themes"
+  local target="$HOME/.config/starship.toml"
+  local choice
+  if [[ -n "$1" ]]; then
+    choice="$1"
+  else
+    choice=$(ls -1 "$dir" | sed 's/\.toml$//' | \
+      fzf --prompt="starship theme ❯ " --height=80% --border --reverse \
+          --preview="cat $dir/{}.toml") || return
+  fi
+  local file="$dir/$choice.toml"
+  if [[ ! -f "$file" ]]; then
+    echo "Ukjent tema: '$choice'. Tilgjengelige:"
+    ls -1 "$dir" | sed 's/\.toml$//' | sed 's/^/  /'
+    return 1
+  fi
+  cp "$file" "$target"
+  echo "Byttet til: $choice"
+  exec zsh
+}
