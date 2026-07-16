@@ -3,7 +3,8 @@ return {
   -- Disable UI-heavy plugins
   -- { "folke/noice.nvim", enabled = false },
   { "rcarriga/nvim-notify", enabled = false },
-  { "stevearc/dressing.nvim", enabled = false },
+  -- dressing.nvim is re-enabled in plugins/dressing.lua (it provides the
+  -- floating vim.ui.select menu used for code actions).
 
   -- Keep treesitter but with minimal config
   {
