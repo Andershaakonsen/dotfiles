@@ -5,17 +5,18 @@ Personal macOS development environment configuration.
 ## Features
 
 - **Neovim**: LazyVim-based setup with AI assistance (Supermaven, Avante)
-- **Shell**: Zsh with Oh My Zsh, Powerlevel10k theme, and productivity aliases
-- **Terminal**: Kitty and Alacritty configurations
+- **Shell**: Zsh with Oh My Zsh, Powerlevel10k theme, zoxide smart navigation, and productivity aliases
+- **Terminal**: Ghosty, Kitty and Alacritty configurations
 - **Window Manager**: AeroSpace tiling window manager with vim-style navigation
 - **Tools**: Custom tmux scripts, window management configs
 
 ## Key Aliases
 
 - `v` - Neovim
-- `lg` - Lazygit  
+- `lg` - Lazygit
 - `dw` - `dotnet watch --launch-profile https`
 - `dcup/dcd` - Docker compose up/down
+- `z` - [zoxide](https://github.com/ajeetdsouza/zoxide) smart `cd` (jump to frequently-used dirs)
 
 ## Installation
 
@@ -29,6 +30,7 @@ git clone https://github.com/yourusername/dotfiles.git ~/dotfiles
 Built on [LazyVim](https://lazyvim.org) with custom plugins and keymaps.
 
 ### Key Plugins
+
 - **Harpoon** - Quick file navigation (`<leader>1-5`, `<C-e>`)
 - **Telescope** - Fuzzy finder (`<leader>ff`, `<leader>fs`)
 - **Oil.nvim** - Directory editing
@@ -38,12 +40,14 @@ Built on [LazyVim](https://lazyvim.org) with custom plugins and keymaps.
 - **Supermaven** - Code completion
 
 ### Custom Keymaps
+
 - `<leader>w` - Save all files
 - `<leader>a` - Add file to Harpoon
 - `<C-h/j/k/l>` - Navigate between tmux panes and vim splits
 - Window management: `<leader>sv/sh/se/sx`
 
 ### Languages Configured
+
 TypeScript, JSON, Markdown, Tailwind CSS, TOML
 
 ## Structure
