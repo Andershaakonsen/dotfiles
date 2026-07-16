@@ -177,9 +177,41 @@ shift-down = ['volume set 0', 'mode main']
 
 
 # Not working somehow
-# ctrl-t = 'exec-and-forget open -a /Applications/kitty.app'
 # ctrl-s = 'exec-and-forget open -a /Applications/System Settings.app'
 
 [[on-window-detected]]
 if.app-id = 'net.ankiweb.dtop' # Replace with Anki's bundle ID
 run = 'layout floating'
+
+# --- App → workspace routing --------------------------------------------------
+# Fires when a window is first DETECTED (app launch / new window), not on reload,
+# so it won't yank windows you've already placed. Routing is per-window by
+# app-id, so apps that span several workspaces can't be auto-split:
+#   - Chrome is wanted on ws 2/3/8, but every Chrome window shares one app-id —
+#     it's routed to ws 2; move windows to 3/8 by hand (shift-cmd-3 / shift-cmd-8).
+#   - Quartz lives in a Chrome *tab* (http://quartz:8088), not its own window, so
+#     it isn't routable — use ctrl-q (quartz-focus.sh) to jump to it.
+
+[[on-window-detected]]
+if.app-id = 'net.kovidgoyal.ghostty'
+run = 'move-node-to-workspace 1'
+
+[[on-window-detected]]
+if.app-id = 'com.google.Chrome'
+run = 'move-node-to-workspace 2'
+
+[[on-window-detected]]
+if.app-id = 'com.spotify.client'
+run = 'move-node-to-workspace 4'
+
+[[on-window-detected]]
+if.app-id = 'com.microsoft.Outlook'
+run = 'move-node-to-workspace 5'
+
+[[on-window-detected]]
+if.app-id = 'com.microsoft.teams2'
+run = 'move-node-to-workspace 5'
+
+[[on-window-detected]]
+if.app-id = 'com.anthropic.claudefordesktop'
+run = 'move-node-to-workspace 7'
