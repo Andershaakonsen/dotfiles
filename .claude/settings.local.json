@@ -12,7 +12,8 @@
       "Read(//Users/andershakonsen/.config/**)",
       "Bash(tmux -V)",
       "Bash(tmux list-sessions *)",
-      "Bash(tmux display-message *)"
+      "Bash(tmux display-message *)",
+      "Read(//Users/andershakonsen/Code/reel/backend/**)"
     ],
     "deny": [],
     "ask": []

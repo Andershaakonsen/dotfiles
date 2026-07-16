@@ -1,0 +1,42 @@
+
+# herdr-plus project template: PAMS Frontend
+# Opened via the "Herdr Plus: Projects" action — spins up a new herdr
+# workspace rooted at working_dir with one tab per [[tabs]] entry.
+
+name = "Reel"
+# description = ""
+working_dir = "~/Code/reel"
+
+[[tabs]]
+name = "c&e"
+
+[[tabs.panes]]
+label = "Editor"
+command = "v"
+
+[[tabs.panes]]
+label = "Claude"
+command = "claude"
+split = "right"
+
+[[tabs]]
+name = "dev"
+
+[[tabs.panes]]
+label = "npm"
+# Panes have no per-pane cwd — they all start in working_dir (~/Code/reel).
+# The dev server lives in the frontend subdir, so cd there first.
+command = "cd frontend && npm run dev"
+
+[[tabs.panes]]
+label = "dw"
+# API dev server. dw = `dotnet watch --launch-profile https` (zsh alias);
+# it resolves because the pane runs an interactive login shell. The runnable
+# project is backend/Reel.Api (the one with launchSettings.json + https profile).
+command = "cd backend/Reel.Api && dw"
+split = "right"
+
+# [[tabs.panes]]
+# label = "lazygit"
+# command = "lg"   # lg = lazygit alias
+# split = "right"
