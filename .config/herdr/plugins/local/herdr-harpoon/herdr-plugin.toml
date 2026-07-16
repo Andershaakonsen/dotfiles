@@ -1,0 +1,64 @@
+id = "herdr-harpoon"
+name = "Herdr Harpoon"
+version = "0.1.0"
+min_herdr_version = "0.7.0"
+description = "Harpoon-style workspace marks: pin your key workspaces to an ordered list and jump to them by index. Inspired by ThePrimeagen's harpoon. Marks are workspace labels (stable across restarts), matched against the live workspace list at jump time."
+platforms = ["macos", "linux"]
+
+# Bind these in ~/.config/herdr/config.toml, e.g.:
+#   [[keys.command]]
+#   key = "prefix+a"
+#   type = "plugin_action"
+#   command = "herdr-harpoon.add"
+# and prefix+1..5 -> herdr-harpoon.jump-1..5, plus a menu key.
+
+[[actions]]
+id = "add"
+title = "Harpoon: mark current workspace"
+contexts = ["global"]
+command = ["python3", "scripts/harpoon.py", "add"]
+
+[[actions]]
+id = "jump-1"
+title = "Harpoon: jump to 1"
+contexts = ["global"]
+command = ["python3", "scripts/harpoon.py", "jump", "1"]
+
+[[actions]]
+id = "jump-2"
+title = "Harpoon: jump to 2"
+contexts = ["global"]
+command = ["python3", "scripts/harpoon.py", "jump", "2"]
+
+[[actions]]
+id = "jump-3"
+title = "Harpoon: jump to 3"
+contexts = ["global"]
+command = ["python3", "scripts/harpoon.py", "jump", "3"]
+
+[[actions]]
+id = "jump-4"
+title = "Harpoon: jump to 4"
+contexts = ["global"]
+command = ["python3", "scripts/harpoon.py", "jump", "4"]
+
+[[actions]]
+id = "jump-5"
+title = "Harpoon: jump to 5"
+contexts = ["global"]
+command = ["python3", "scripts/harpoon.py", "jump", "5"]
+
+# The menu action opens the editable marks list as a herdr pane (below).
+[[actions]]
+id = "menu"
+title = "Harpoon: edit marks"
+contexts = ["global"]
+command = ["python3", "scripts/harpoon.py", "open-menu"]
+
+# The marks list itself — herdr gives it a real terminal; the command opens the
+# marks file in the editor. Reorder/delete lines and save to apply.
+[[panes]]
+id = "menu"
+title = "Harpoon marks"
+placement = "zoomed"
+command = ["python3", "scripts/harpoon.py", "edit"]

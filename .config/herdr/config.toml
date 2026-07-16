@@ -13,17 +13,19 @@
 
 # Follow host terminal light/dark appearance and switch Herdr UI themes.
 # Existing manual behavior is unchanged unless this is true.
-# auto_switch = false
-# dark_name = "catppuccin"
-# light_name = "catppuccin-latte"
+# Matches the Ghostty theme = dark:Catppuccin Mocha,light:Catppuccin Latte setup.
+auto_switch = true
+dark_name = "catppuccin"
+light_name = "catppuccin-latte"
 
 # Override individual color tokens on top of the base theme.
 # Accepts: hex (#rrggbb), named colors, rgb(r,g,b), or panel_bg = "reset"
-# [theme.custom]
-# panel_bg = "reset"
-# accent = "#f5c2e7"
-# red = "#ff6188"
-# green = "#a6e3a1"
+# Give the active sidebar row (and other "elevated" surfaces) a subtle
+# highlight background, so the current workspace stands out beyond the dot.
+[theme.custom]
+surface = "#2f2b45"
+surface_dim = "#2f2b45"
+overlay = "#2f2b45"
 
 [terminal]
 # Executable used for new interactive panes.
@@ -75,13 +77,7 @@ new_workspace = "prefix+shift+w"
 # remove_worktree = ""  # optional, unset by default; opens confirmation
 rename_workspace = "prefix+$"
 # close_workspace = "prefix+shift+d"
-# Jump to the previous workspace. Bound to prefix+L (capital) — the same key
-# tmux uses for "last session" (switch-client -l). Lowercase l is reserved by
-# herdr's navigate-mode pane movement (navigate_pane_right), so it can't be a
-# prefix action; capital L avoids that clash. Herdr has no last-visited toggle,
-# only ordinal previous/next.
-previous_workspace = "prefix+shift+l"
-# next_workspace = "prefix+shift+h"  # uncomment for the other direction
+# previous_workspace = "" # optional, unset by default
 # next_workspace = ""     # optional, unset by default
 # previous_agent = ""     # optional, unset by default
 # next_agent = ""         # optional, unset by default
@@ -116,12 +112,15 @@ zoom = "prefix+m" # legacy alias: fullscreen
 
 # Navigate-mode movement. These local shortcuts win while navigate mode is open.
 # They are independent from focus_pane_*. Do not include prefix+, esc, enter, tab, or 1..9 here.
-navigate_workspace_up = "ctrl+k"
-navigate_workspace_down = "ctrl+j"
+# Defualt:
+# navigate_workspace_up = "ctrl+k"
+# navigate_workspace_down = "ctrl+j"
+navigate_workspace_up = "k"
+navigate_workspace_down = "j"
 # navigate_pane_left = "h"      # left arrow always focuses the pane to the left
 # navigate_pane_down = "j"
-# navigate_pane_up = "k"
-# navigate_pane_right = "l"     # right arrow always focuses the pane to the right
+navigate_pane_up = ""
+navigate_pane_right = "" # right arrow always focuses the pane to the right
 
 # Custom commands use the same binding syntax.
 # type = "shell" runs detached in the background.
@@ -186,7 +185,7 @@ navigate_workspace_down = "ctrl+j"
 # pane_gaps = true
 
 # Show detected/reported agent labels in split pane borders when no manual pane name is set.
-show_agent_labels_on_pane_borders = true
+# show_agent_labels_on_pane_borders = false
 
 # Agent panel ordering: "spaces" (grouped by space) or "priority" (attention queue).
 # "workspaces" is accepted as an alias for "spaces".
@@ -205,7 +204,7 @@ show_agent_labels_on_pane_borders = true
 # delivery = "off"
 # delay_seconds = 1
 
-delivery = "herdr"
+delivery = "system"
 [ui.toast.herdr]
 # position = "bottom-right"
 
@@ -338,3 +337,43 @@ command = "herdr-splits.resize-up"
 key = "alt+l"
 type = "plugin_action"
 command = "herdr-splits.resize-right"
+
+## Plugin herdr-harpoon — Harpoon-style workspace marks (inspired by ThePrimeagen)
+# Commented out / parked — the plugin is also `herdr plugin disable`d. To re-enable:
+# uncomment this block, run `herdr plugin enable herdr-harpoon`, and reload config.
+# prefix+a marks the current workspace; prefix+1..5 jump to marks 1..5;
+# prefix+A opens the editable marks list (reorder/delete lines in nvim, save).
+# [[keys.command]]
+# key = "prefix+a"
+# type = "plugin_action"
+# command = "herdr-harpoon.add"
+#
+# [[keys.command]]
+# key = "prefix+shift+a"
+# type = "plugin_action"
+# command = "herdr-harpoon.menu"
+#
+# [[keys.command]]
+# key = "prefix+1"
+# type = "plugin_action"
+# command = "herdr-harpoon.jump-1"
+#
+# [[keys.command]]
+# key = "prefix+2"
+# type = "plugin_action"
+# command = "herdr-harpoon.jump-2"
+#
+# [[keys.command]]
+# key = "prefix+3"
+# type = "plugin_action"
+# command = "herdr-harpoon.jump-3"
+#
+# [[keys.command]]
+# key = "prefix+4"
+# type = "plugin_action"
+# command = "herdr-harpoon.jump-4"
+#
+# [[keys.command]]
+# key = "prefix+5"
+# type = "plugin_action"
+# command = "herdr-harpoon.jump-5"
