@@ -42,5 +42,42 @@ vim.api.nvim_create_autocmd("BufLeave", {
   end,
 })
 
+-- Opening nvim with no file args anywhere in the dotfiles tree → open the root README
+local function open_dotfiles_readme()
+  -- only when launched without any file arguments
+  if vim.fn.argc() ~= 0 then
+    return
+  end
+
+  -- don't clobber a buffer that already has content (e.g. piped stdin)
+  local buf = vim.api.nvim_get_current_buf()
+  if vim.api.nvim_buf_get_name(buf) ~= "" or vim.bo[buf].modified then
+    return
+  end
+  local lines = vim.api.nvim_buf_get_lines(buf, 0, -1, false)
+  if #lines > 1 or (lines[1] or "") ~= "" then
+    return
+  end
+
+  local dotfiles = vim.fn.expand("~/dotfiles")
+  local cwd = vim.fn.getcwd()
+  if cwd ~= dotfiles and not vim.startswith(cwd, dotfiles .. "/") then
+    return
+  end
+
+  local readme = dotfiles .. "/README.md"
+  if vim.fn.filereadable(readme) == 1 then
+    vim.cmd.edit(readme)
+  end
+end
+
+-- LazyVim loads this file on VeryLazy; with no file args that fires *after*
+-- VimEnter, so run immediately if we've already entered, else wait for VimEnter.
+if vim.v.vim_did_enter == 1 then
+  open_dotfiles_readme()
+else
+  vim.api.nvim_create_autocmd("VimEnter", { callback = open_dotfiles_readme })
+end
+
 -- <leader>q in vault notes → open the note in the local Quartz site
 require("config.quartz")
