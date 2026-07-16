@@ -12,8 +12,14 @@ return {
   event = "VeryLazy",
   config = function()
     require("herdr-splits").setup({
-      -- Defaults are sensible; at_edge = "wrap" matches tmux-navigator feel.
-      at_edge = "wrap",
+      -- Keep the pane zoomed while navigating (ctrl+h/j/k/l carries the zoom
+      -- to the next pane instead of unzooming). Plugin default is true, which
+      -- unzooms on nav — override it here (this is the source of truth; the
+      -- generated herdr-splits.conf is rewritten from these opts each startup).
+      unzoom_on_nav = false,
+      -- nav_at_edge = "wrap" matches the tmux-navigator feel (was `at_edge`,
+      -- which the plugin renamed and no longer reads).
+      nav_at_edge = "wrap",
     })
   end,
   keys = {
