@@ -49,6 +49,12 @@ yarn-error.log*
 .config/**/token*
 .config/**/secret*
 
+# Claude Code local machine settings (permission allowlist, internal paths)
+.claude/settings.local.json
+
+# Work-specific herdr project templates (kept local, not published)
+.config/herdr/plugins/config/cloudmanic.herdr-plus/projects/pams-fronted.toml
+
 # Node.js
 node_modules/
 package-lock.json
