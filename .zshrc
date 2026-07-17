@@ -29,6 +29,9 @@ set -o vi
 alias lg='/opt/homebrew/bin/lazygit'
 alias v='/opt/homebrew/bin/nvim'
 
+# Ghostty CLI (not in PATH) — enables `ghostty +list-themes`, `+show-config`, etc.
+alias ghostty='/Applications/Ghostty.app/Contents/MacOS/ghostty'
+
 # Function to print a message when nvim is typed
 unalias nvim 2>/dev/null
 nvim() {
