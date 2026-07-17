@@ -70,7 +70,15 @@ return {
         end
       end
 
-      apply("dark")
+      -- Follow the macOS system appearance on startup: Dark -> tokyonight,
+      -- Light -> catppuccin-latte. Mirrors the Ghostty dark:/light: theme setup.
+      -- `AppleInterfaceStyle` is only set (to "Dark") in dark mode; absent = light.
+      local function system_bg()
+        local out = vim.fn.system({ "defaults", "read", "-g", "AppleInterfaceStyle" })
+        return out:match("Dark") and "dark" or "light"
+      end
+
+      apply(system_bg())
 
       -- LazyVim binds <leader>ub to its own background toggle on VeryLazy, which
       -- fires after this config runs. Register ours on VeryLazy too so it wins
@@ -78,6 +86,11 @@ return {
       vim.api.nvim_create_autocmd("User", {
         pattern = "VeryLazy",
         callback = function()
+          -- Re-apply the system-based colorscheme here: LazyVim sets its own
+          -- colorscheme during startup *after* this plugin's config() runs, so
+          -- the apply() above gets overridden. VeryLazy fires last, so this wins.
+          apply(system_bg())
+
           vim.keymap.set("n", "<leader>ub", function()
             apply(vim.o.background == "dark" and "light" or "dark")
             vim.notify("Background: " .. vim.o.background, vim.log.levels.INFO)

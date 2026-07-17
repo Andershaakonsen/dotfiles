@@ -13,13 +13,10 @@ window-padding-x = 10
 window-padding-y = 0
 confirm-close-surface = false
 
-# Colors — auto-switch with macOS appearance: Mocha (dark) / Latte (light),
-# matching the Neovim colorscheme.lua light/dark setup.
-theme = dark:Catppuccin Mocha,light:Catppuccin Latte
-# Custom selection/cursor to match kitty's overrides
-selection-foreground = 1e1e2e
-selection-background = f5e0dc
-cursor-color = f5e0dc
+# Colors — follow macOS appearance: TokyoNight Night (dark) / Catppuccin Latte
+# (light). Mirrors the Neovim colorscheme.lua system-based light/dark setup.
+theme = dark:TokyoNight Night,light:Catppuccin Latte
+# Selection/cursor left to the theme.
 
 # Cursor / shell integration
 cursor-style = block

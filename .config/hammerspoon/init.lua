@@ -9,6 +9,10 @@
 -- Only meaningful for FLOATING windows. AeroSpace re-tiles managed windows
 -- immediately, so dragging a tiled window just snaps back — expected.
 
+-- Start the IPC command server so the `hs` CLI (`hs -c "..."`) works — used to
+-- reload config and drive Hammerspoon from scripts. Without this, `hs -c` hangs.
+require("hs.ipc")
+
 local eventtap = hs.eventtap
 local etypes = eventtap.event.types
 
@@ -104,6 +108,22 @@ end)
 altDragTaps.down:start()
 altDragTaps.move:start()
 altDragTaps.up:start()
+
+-- Sync herdr's active-row highlight color to the macOS light/dark appearance.
+-- herdr's [theme.custom] is a single global table (no light/dark split), so its
+-- dark navy surface bleeds into light mode. A script rewrites config.toml and
+-- hot-reloads herdr; we fire it on the system appearance-change event (event-
+-- driven, no polling) and once now to match the current state.
+-- Like the eventtaps above, the watcher must live in a persistent global or the
+-- GC reaps it after init.lua returns.
+local HERDR_THEME_SYNC = "/Users/andershakonsen/dotfiles/scripts/herdr-theme-sync.sh"
+local function syncHerdrTheme()
+  hs.task.new(HERDR_THEME_SYNC, nil):start()
+end
+herdrThemeWatcher = herdrThemeWatcher
+  or hs.distributednotifications.new(syncHerdrTheme, "AppleInterfaceThemeChangedNotification")
+herdrThemeWatcher:start()
+syncHerdrTheme()
 
 -- Surface whether accessibility is actually granted (taps silently no-op without it).
 if hs.accessibilityState() then
