@@ -29,9 +29,9 @@ vim.keymap.set("n", "<leader>as", function()
       vim.defer_fn(function()
         -- Anki sync hotkey (standard er 'y' eller Cmd+Shift+S)
         vim.fn.system('osascript -e \'tell application "System Events" to keystroke "y"\'')
-        -- Hopp tilbake til Kitty
+        -- Hopp tilbake til Ghostty
         vim.defer_fn(function()
-          vim.fn.system("open -a Kitty")
+          vim.fn.system("open -a Ghostty")
           -- Refresh buffer i Neovim
           vim.defer_fn(function()
             vim.cmd("edit")
