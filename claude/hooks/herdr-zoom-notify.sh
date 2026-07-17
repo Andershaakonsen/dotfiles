@@ -40,17 +40,13 @@ zoomed = bool(layout.get("zoomed"))
 focused_pane = layout.get("focused_pane_id")
 
 ws = next((w for w in workspaces if w.get("workspace_id") == ws_id), None)
-if ws is None:
-    raise SystemExit(0)
-
-# Background workspace -> herdr's built-in already notifies. Leave it alone.
-if not ws.get("focused"):
-    raise SystemExit(0)
-
-active_tab = ws.get("active_tab_id")
+ws_focused = bool(ws.get("focused")) if ws else False
+active_tab = ws.get("active_tab_id") if ws else None
 # Visible = on the active tab AND (not zoomed, or *we* are the zoomed pane).
 visible = (tab_id == active_tab) and (not zoomed or focused_pane == pane)
-if visible:
+# Fire only in the foreground-workspace gap (background is herdr's job).
+would_notify = (ws is not None) and ws_focused and not visible
+if not would_notify:
     raise SystemExit(0)
 
 subprocess.run(
