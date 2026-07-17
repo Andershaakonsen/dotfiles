@@ -67,7 +67,26 @@ local function open_dotfiles_readme()
 
   local readme = dotfiles .. "/README.md"
   if vim.fn.filereadable(readme) == 1 then
+    -- Force-load nvim-treesitter *before* opening the buffer. It's lazy-loaded
+    -- on BufReadPost, so opening the README here would fire FileType before its
+    -- highlighter attaches — leaving the buffer unhighlighted until a manual
+    -- :e re-fired FileType. Loading it first registers the FileType handler so
+    -- highlighting attaches on this first load.
+    pcall(function()
+      require("lazy").load({ plugins = { "nvim-treesitter" } })
+    end)
     vim.cmd.edit(readme)
+    -- Belt-and-suspenders: ensure the filetype is set (drives ftplugins + the
+    -- treesitter FileType handler) and attach the treesitter highlighter with
+    -- an explicit lang, in case the FileType detection/handler lost the startup
+    -- race. Native API, no-ops if already active.
+    vim.schedule(function()
+      local b = vim.api.nvim_get_current_buf()
+      if vim.bo[b].filetype ~= "markdown" then
+        vim.bo[b].filetype = "markdown"
+      end
+      pcall(vim.treesitter.start, b, "markdown")
+    end)
   end
 end
 
