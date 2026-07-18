@@ -7,9 +7,15 @@
 -- Egen filetype for workflow-filer, så actionlint kun kjører der (ikke på all
 -- YAML). LazyVim sin lint-modul splitter "yaml.github" på "." og kjører både
 -- yaml- og yaml.github-linters.
+--
+-- I tillegg: mengdetrening-drillene i gh200-actions-practice ligger i drills/
+-- (utenfor .github/workflows/, så GitHub ikke kjører dem), men skal ha samme
+-- Actions-verktøy lokalt. Mønsteret er scopet til det repoet så det ikke slår
+-- inn på tilfeldige drills/-mapper i andre prosjekter.
 vim.filetype.add({
   pattern = {
     [".*/%.github/workflows/.*%.ya?ml"] = "yaml.github",
+    [".*/gh200%-actions%-practice/drills/.*%.ya?ml"] = "yaml.github",
   },
 })
 
@@ -31,6 +37,21 @@ return {
         },
         gh_actions_ls = {
           filetypes = { "yaml.github" },
+          -- Den innebygde root_dir krever at mappa SLUTTER på .github/workflows.
+          -- Løsne til å matche hvis stien INNEHOLDER .github|.forgejo|.gitea/
+          -- workflows, PLUSS gh200-actions-practice/drills (mengdetrening som
+          -- bevisst ligger utenfor .github/workflows/), slik at de også får LSP.
+          root_dir = function(bufnr, on_dir)
+            local parent = vim.fs.dirname(vim.api.nvim_buf_get_name(bufnr))
+            if
+              parent:find("/%.github/workflows")
+              or parent:find("/%.forgejo/workflows")
+              or parent:find("/%.gitea/workflows")
+              or parent:find("/gh200%-actions%-practice/drills")
+            then
+              on_dir(parent)
+            end
+          end,
         },
       },
     },
