@@ -24,9 +24,9 @@ light_name = "catppuccin-latte"
 # highlight background, so the current workspace stands out beyond the dot.
 name = "tokyo-night"
 [theme.custom]
-surface = "#2f2b45"
-surface_dim = "#2f2b45"
-overlay = "#2f2b45"
+surface = "#ccd0da"
+surface_dim = "#ccd0da"
+overlay = "#ccd0da"
 
 [terminal]
 # Executable used for new interactive panes.
