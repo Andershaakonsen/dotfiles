@@ -21,6 +21,10 @@ return {
   end,
   opts = {
     preview = { enabled = false },
+    -- Start indexing the cwd at startup instead of on the first <leader>ff.
+    -- Avoids the race where the first invocation shows an empty/partial list
+    -- while the Rust filesystem walk is still running.
+    lazy_sync = false,
     layout = {
       prompt_position = "top", -- match telescope (sorting_strategy = ascending)
     },
