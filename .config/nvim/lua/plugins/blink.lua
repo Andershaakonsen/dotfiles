@@ -25,11 +25,17 @@ return {
       use_nvim_cmp_as_default = false,
       nerd_font_variant = "mono",
     })
-    -- Replace (not extend) the source list: no snippets, no duplicates.
+    -- Replace (not extend) the source list. `snippets` is back so
+    -- friendly-snippets (clg -> console.log, etc.) works again; explicit list
+    -- still avoids the opts_extend duplication the header comment warns about.
     opts.sources = opts.sources or {}
-    opts.sources.default = { "lsp", "path", "buffer" }
+    opts.sources.default = { "lsp", "path", "snippets", "buffer" }
+    -- blink.cmp does NOT honor vim.o.winborder — its menu/docs windows have
+    -- their own `border` option (default none). Set it to match the rounded
+    -- border used for native floats (K hover) in config/options.lua.
     opts.completion = vim.tbl_deep_extend("force", opts.completion or {}, {
       menu = {
+        border = "rounded",
         draw = {
           treesitter = { "lsp" }, -- Minimal treesitter usage
         },
@@ -37,6 +43,7 @@ return {
       documentation = {
         auto_show = true,
         auto_show_delay_ms = 200,
+        window = { border = "rounded" },
       },
     })
     return opts

@@ -11,9 +11,17 @@
 vim.opt.number = true
 vim.opt.relativenumber = true
 vim.opt.signcolumn = "yes" -- Always show signcolumn to prevent text shifting
+vim.opt.showtabline = 0 -- Never show the tabline (bufferline disabled)
 
 -- Vis markdown kommentarer alltid (ikke skjul dem)
 vim.opt.conceallevel = 0
+
+-- Neovim 0.11+ made `winborder` the single source of truth for floating-window
+-- borders. LazyVim honors it instead of hard-coding a border in the LSP hover
+-- handler, so with the empty default `K` hover / signature help render
+-- borderless. Restore the rounded frame globally (hover, signature, diagnostics,
+-- vim.ui.select, blink docs, ...).
+vim.o.winborder = "rounded"
 
 -- Neovim detects *.bicepparam as filetype `bicep`, which makes the bicep
 -- language server compile param files in regular bicep mode (BCP007 on `using`,

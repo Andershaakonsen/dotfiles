@@ -2,7 +2,12 @@ return {
   "folke/noice.nvim",
   event = "VeryLazy",
   opts = {
-    -- add any options here
+    -- Noice intercepts LSP hover (K) and signature help and renders them
+    -- through its own views, so vim.o.winborder doesn't apply. This preset
+    -- puts a rounded border back on those doc popups.
+    presets = {
+      lsp_doc_border = true,
+    },
   },
   dependencies = {
     -- if you lazy-load any plugin below, make sure to add proper `module="..."` entries
