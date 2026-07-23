@@ -1,0 +1,26 @@
+name = "PAMS-Backend"
+description = "PAMS Backend"
+working_dir = "~/pams/PAMS-Backend/"
+
+[[tabs]]
+name = "c&e"
+
+[[tabs.panes]]
+label = "Editor"
+command = "v ."
+
+[[tabs.panes]]
+label = "Claude"
+command = "claude"
+split = "right"
+
+# Each pane splits off the PREVIOUS pane in the list (no size option — always
+# 50/50), so these two carve the bottom half of the Claude column into two
+# side-by-side shells. Editor keeps the full left half.
+[[tabs.panes]]
+label = "term"
+split = "down"
+
+[[tabs.panes]]
+label = "term2"
+split = "right"
