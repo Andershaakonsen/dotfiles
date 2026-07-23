@@ -4,13 +4,14 @@
 -- Now owns <leader>ff (find files) and <leader>fs (live grep), replacing the
 -- telescope binds (removed from snacks.lua). Telescope is no longer key-bound.
 --
--- CRASH-SAFETY: preview is disabled on purpose. Floating *previewers* are the
--- pattern behind disabling telescope's previewer and the Snacks picker (see
--- CLAUDE.md). A picker float WITHOUT preview is the same shape as the telescope
--- setup that already runs fine here. If it still crashes, remove this file.
+-- CRASH-SAFETY NOTE: preview was originally disabled because floating
+-- *previewers* were the pattern behind disabling telescope's previewer and the
+-- Snacks picker (see CLAUDE.md). fff's previewer is its own implementation
+-- (chunked reads + treesitter), so it's being trialed enabled — if the picker
+-- starts crashing the TUI again, set preview.enabled = false.
 --
--- Layout mirrors telescope: prompt at top, no preview. <C-j>/<C-k> added to the
--- nav keys to match telescope/blink muscle memory.
+-- Layout mirrors telescope: prompt at top, preview on the right (fff default).
+-- <C-j>/<C-k> added to the nav keys to match telescope/blink muscle memory.
 --
 -- Install pulls a prebuilt binary (falls back to `cargo` only if needed), so a
 -- Rust toolchain is not strictly required. Run :Lazy sync to install.
@@ -20,7 +21,7 @@ return {
     require("fff.download").download_or_build_binary()
   end,
   opts = {
-    preview = { enabled = false },
+    preview = { enabled = true },
     -- Start indexing the cwd at startup instead of on the first <leader>ff.
     -- Avoids the race where the first invocation shows an empty/partial list
     -- while the Rust filesystem walk is still running.
