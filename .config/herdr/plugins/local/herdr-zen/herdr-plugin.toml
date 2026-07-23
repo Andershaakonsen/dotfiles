@@ -1,0 +1,37 @@
+id = "herdr-zen"
+name = "Herdr Zen Mode"
+version = "0.1.0"
+min_herdr_version = "0.7.2"
+description = "Distraction-free 'zen mode' toggle. One key flips pane gaps and single-tab tab-bar hiding (pane borders stay on) by rewriting a managed block in config.toml and hot-reloading the server. herdr has no runtime API for these [ui] settings (and none at all for the sidebar — use the built-in toggle_sidebar for that), so config-rewrite + reload-config is the only toggle path. Requires >= 0.7.2 for hide_tab_bar_when_single_tab."
+platforms = ["macos", "linux"]
+
+# Bind in ~/.config/herdr/config.toml:
+#   [[keys.command]]
+#   key = "prefix+z"
+#   type = "plugin_action"
+#   command = "herdr-zen.toggle"
+#
+# The managed block this plugin rewrites must exist in the [ui] section:
+#   # --- herdr-zen begin ---
+#   pane_borders = true
+#   pane_gaps = true
+#   hide_tab_bar_when_single_tab = false
+#   # --- herdr-zen end ---
+
+[[actions]]
+id = "toggle"
+title = "Toggle zen mode"
+contexts = ["global"]
+command = ["python3", "scripts/zen.py", "toggle"]
+
+[[actions]]
+id = "on"
+title = "Zen mode on"
+contexts = ["global"]
+command = ["python3", "scripts/zen.py", "on"]
+
+[[actions]]
+id = "off"
+title = "Zen mode off"
+contexts = ["global"]
+command = ["python3", "scripts/zen.py", "off"]

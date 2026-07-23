@@ -1,3 +1,4 @@
+onboarding = false
 # herdr configuration
 # Place this file at ~/.config/herdr/config.toml
 
@@ -24,9 +25,9 @@ light_name = "catppuccin-latte"
 # highlight background, so the current workspace stands out beyond the dot.
 name = "tokyo-night"
 [theme.custom]
-surface = "#ccd0da"
-surface_dim = "#ccd0da"
-overlay = "#ccd0da"
+surface = "#2f2b45"
+surface_dim = "#2f2b45"
+overlay = "#2f2b45"
 
 [terminal]
 # Executable used for new interactive panes.
@@ -109,7 +110,9 @@ split_horizontal = "prefix+-"
 # close_pane = "prefix+x"
 zoom = "prefix+m" # legacy alias: fullscreen
 # resize_mode = "prefix+r"
-# toggle_sidebar = "prefix+b"
+# Collapse/expand the sidebar. With ui.sidebar_collapsed_mode = "hidden" below,
+# collapsed means fully gone — pairs with prefix+z (herdr-zen) for zen mode.
+toggle_sidebar = "prefix+b"
 
 # Navigate-mode movement. These local shortcuts win while navigate mode is open.
 # They are independent from focus_pane_*. Do not include prefix+, esc, enter, tab, or 1..9 here.
@@ -187,6 +190,18 @@ navigate_pane_right = "" # right arrow always focuses the pane to the right
 
 # Show detected/reported agent labels in split pane borders when no manual pane name is set.
 # show_agent_labels_on_pane_borders = false
+
+# Collapsed sidebar takes zero width instead of the default compact rail, so
+# toggle_sidebar (prefix+b) fully hides it. Requires herdr >= 0.7.2.
+sidebar_collapsed_mode = "hidden"
+
+# --- herdr-zen begin --- (managed by the herdr-zen plugin; toggled with
+# prefix+z — don't hand-edit the three values below, the plugin rewrites them.
+# Zen on: no pane gaps (borders stay on), tab bar hidden on single-tab workspaces.)
+pane_borders = true
+pane_gaps = true
+hide_tab_bar_when_single_tab = false
+# --- herdr-zen end ---
 
 # Agent panel ordering: "spaces" (grouped by space) or "priority" (attention queue).
 # "workspaces" is accepted as an alias for "spaces".
@@ -292,6 +307,16 @@ key = "prefix+l"
 type = "plugin_action"
 command = "herdr-lastws.last"
 description = "herdr-lastws: last workspace"
+
+## Plugin herdr-zen — distraction-free "zen mode" toggle
+# prefix+z flips the herdr-zen managed block in [ui] above (pane borders, gaps,
+# single-tab tab bar) and reloads the config. Sidebar has no scriptable toggle,
+# so hide it separately with prefix+b. See plugins/local/herdr-zen/.
+[[keys.command]]
+key = "prefix+z"
+type = "plugin_action"
+command = "herdr-zen.toggle"
+description = "herdr-zen: toggle zen mode"
 
 ## Plugin herdr-splits — seamless Neovim<->herdr split navigation & resizing
 # ctrl+h/j/k/l: the action checks the focused pane's process; if Neovim is
